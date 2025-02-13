@@ -4,8 +4,7 @@
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
 // @version      1.4
-// @author       Adrian
-// @author       Hubert
+// @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://gitfront.io/r/hOObi/yUP8uEXvfR5q/ScriptsRepo/raw/TicketsExtended.js
 // ==/UserScript==
