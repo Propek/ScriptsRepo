@@ -76,10 +76,7 @@ function formatTicketTitle() {
     });
 }
 
-function() {
-  'use strict';
-
-  function formatPhoneNumber(phoneNumberElement) {
+function formatPhoneNumber(phoneNumberElement) {
     const originalNumber = phoneNumberElement.textContent;
     if (/^\+\d{2} \d{9}$/.test(originalNumber)) {
       const formattedNumber = originalNumber.replace(/(\+\d{2}) (\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
@@ -95,22 +92,17 @@ function() {
     phoneNumbers.forEach(formatPhoneNumber);
   }
 
-  // Initial formatting
-  formatPhoneNumbers();
-
-  // MutationObserver for dynamic changes
-  const observer = new MutationObserver(mutations => {
+const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       mutation.addedNodes.forEach(formatPhoneNumbers);
     });
   });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-
-})();
-
+};
 // Wait for the page to load and then run the scripts (unchanged)
 window.addEventListener('load', function () {
     formatTicketTitle();
     formatTicketTitleOnList();
+    formatPhoneNumbers();
+
+    observer.observe(document.body, { childList: true, subtree: true });
 });
