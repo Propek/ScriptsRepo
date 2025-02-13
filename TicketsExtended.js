@@ -10,7 +10,7 @@
 // @downloadURL  https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
 // ==/UserScript==
 
-// Function to format ticket title on the list (unchanged)
+// Function to format ticket title on the list
 function formatTicketTitleOnList() {
     const ticketLinks = document.querySelectorAll('a[id^="Ticket"]');
 
@@ -33,7 +33,7 @@ function formatTicketTitleOnList() {
 function formatTicketTitle() {
     const ticketTitles = document.querySelectorAll('.navigationheader-title');
 
-    ticketTitles.forEach((ticket) => {
+    ticketTitles.forEach(ticket => {
         const titleText = ticket.textContent.trim();
         const idMatch = titleText.match(/\((\d+)\)$/);
 
@@ -78,27 +78,22 @@ function formatTicketTitle() {
 
 function formatPhoneNumber(phoneNumberElement) {
     const originalNumber = phoneNumberElement.textContent;
-    if (/^\+\d{2} \d{9}$/.test(originalNumber)) {
-      const formattedNumber = originalNumber.replace(/(\+\d{2}) (\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
-      phoneNumberElement.textContent = formattedNumber;
-    } else {
-      const formattedNumber = originalNumber.replace(/(\+\d{2})(\d{3})(\d{3})(\d{3})/, '$1 $2 $3 $4');
-      phoneNumberElement.textContent = formattedNumber;
-    }
-  }
+    const formattedNumber = originalNumber.replace(/(\+\d{2}) ?(\d{3}) ?(\d{3}) ?(\d{3})/, '$1 $2 $3 $4');
+    phoneNumberElement.textContent = formattedNumber;
+}
 
-  function formatPhoneNumbers() {
+function formatPhoneNumbers() {
     const phoneNumbers = document.querySelectorAll('a[href^="tel:"]');
     phoneNumbers.forEach(formatPhoneNumber);
-  }
+}
 
 const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(formatPhoneNumbers);
+        mutation.addedNodes.forEach(formatPhoneNumbers);
     });
-  });
-};
-// Wait for the page to load and then run the scripts (unchanged)
+});
+
+// Wait for the page to load and then run the scripts
 window.addEventListener('load', function () {
     formatTicketTitle();
     formatTicketTitleOnList();
