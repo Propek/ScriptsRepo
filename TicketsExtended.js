@@ -3,11 +3,11 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      1.4
+// @version      1.5
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
-// @updateURL    https://gitfront.io/r/hOObi/yUP8uEXvfR5q/ScriptsRepo/raw/TicketsExtended.js
-// @downloadURL  https://gitfront.io/r/hOObi/yUP8uEXvfR5q/ScriptsRepo/raw/TicketsExtended.js
+// @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
+// @downloadURL  https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
 // ==/UserScript==
 
 // Function to format ticket title on the list (unchanged)
