@@ -7,7 +7,7 @@
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://gitfront.io/r/hOObi/yUP8uEXvfR5q/ScriptsRepo/raw/TicketsExtended.js
-// @downloadURL    https://gitfront.io/r/hOObi/yUP8uEXvfR5q/ScriptsRepo/raw/TicketsExtended.js
+// @downloadURL  https://gitfront.io/r/hOObi/yUP8uEXvfR5q/ScriptsRepo/raw/TicketsExtended.js
 // ==/UserScript==
 
 // Function to format ticket title on the list (unchanged)
