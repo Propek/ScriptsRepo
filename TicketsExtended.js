@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      1.5
+// @version      1.6
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -101,3 +101,29 @@ window.addEventListener('load', function () {
 
     observer.observe(document.body, { childList: true, subtree: true });
 });
+
+
+(function() {
+    'use strict';
+
+    // Function to remove options under "0godz30"
+    function removeOptions() {
+        // Wait for the dropdown to be visible
+        let dropdown = document.querySelector('.select2-container--open .select2-results__options');
+        if (dropdown) {
+            let options = dropdown.querySelectorAll('li');
+            options.forEach(option => {
+                if (option.textContent.trim().startsWith('0godz') && parseInt(option.textContent.trim().slice(-2)) < 30) {
+                    option.remove();
+                }
+            });
+        }
+    }
+
+    // Observe changes to the dropdown container to detect when the options are populated dynamically
+    const observer = new MutationObserver(removeOptions);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Run the function initially in case the dropdown is already populated
+    window.addEventListener('load', removeOptions);
+})();
