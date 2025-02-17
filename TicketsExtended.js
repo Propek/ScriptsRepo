@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      1.7
+// @version      1.8
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -14,7 +14,7 @@
     'use strict';
 
     /************************************************
-      Wyśietlanie i formatowanie pełnego ID zgłoszenia
+      Wyświetlanie i formatowanie pełnego ID zgłoszenia
      ************************************************/
     function formatTicketTitleOnList() {
         const ticketLinks = document.querySelectorAll('a[id^="Ticket"]');
@@ -206,7 +206,7 @@ function formatTicketTitle() {
                     const newValue = presetDropdown.value.trim();
                     stopEditing(newValue);
                     saveTitleToGLPI(newValue);
-                    // Reset dropdown selection
+                    // Resetuj wybrany element listy tytułów
                     presetDropdown.selectedIndex = 0;
                     if (typeof $ !== "undefined" && typeof $.fn.selectpicker === "function") {
                         $(presetDropdown).selectpicker('refresh');
@@ -269,7 +269,7 @@ function formatTicketTitle() {
                 }, 300);
             }
 
-            // Logika przycisku do zmiany tytułu zgłoszenia
+            // Logika działania przycisku do zmiany tytułu zgłoszenia
             changeTitleButton.addEventListener('click', () => {
                 if (!isEditingTitle) {
                     startEditing();
@@ -300,6 +300,9 @@ function formatTicketTitle() {
                     stopEditing(currentTitleOnly);
                 }
             });
+
+            // Initial update of suggested time.
+            updateSuggestedTimeSummary();
         }
     });
 }
@@ -333,23 +336,321 @@ function formatTicketTitle() {
     });
 
     /************************************************
-      Usunięcie możliwości wyboru godzin
-      poniżej 30 minut
+      Usunięcie możliwości wyboru godzin poniżej
+      30 minut i formatownie wyświetlanego tekstu
      ************************************************/
-    const removeOptionsObserver = new MutationObserver(removeOptions);
-    function removeOptions() {
-        let dropdown = document.querySelector('.select2-container--open .select2-results__options');
-        if (dropdown) {
-            let options = dropdown.querySelectorAll('li');
-            options.forEach(option => {
-                if (option.textContent.trim().startsWith('0godz') &&
-                    parseInt(option.textContent.trim().slice(-2)) < 30) {
+    const removeOptionsObserver = new MutationObserver(() => {
+    removeOptions();
+    updateUnderlyingSelectOptionTexts();
+});
+function removeOptions() {
+    let dropdown = document.querySelector('.select2-container--open .select2-results__options');
+    if (dropdown) {
+        let options = dropdown.querySelectorAll('li');
+        options.forEach(option => {
+            let txt = option.textContent.trim();
+            // Formatowanie opcji z początkiem "0godz"
+            if (txt.startsWith("0godz")) {
+                let minutes = parseInt(txt.slice(-2)); // np. "0godz30" -> 30
+                if (minutes < 30) {
                     option.remove();
+                } else if (minutes === 30) {
+                    option.textContent = "30 min.";
                 }
-            });
-        }
+            }
+            // Formatowanie opcji z początkiem 1godz itd.
+            else if (/^\d+godz\d{1,2}$/.test(txt)) {
+                let parts = txt.split("godz");
+                let hour = parseInt(parts[0]);
+                let mins = parseInt(parts[1]);
+                let newText = "";
+                if (mins === 0) {
+                    newText = hour + " godz.";
+                } else if (mins === 30) {
+                    newText = hour + ",5 godz.";
+                } else {
+                    newText = txt;
+                }
+                option.textContent = newText;
+            }
+        });
     }
-    window.addEventListener('load', removeOptions);
-    removeOptionsObserver.observe(document.body, { childList: true, subtree: true });
+}
 
+// Formatowanie wyświetlania godzin w wybranej opcji
+function updateUnderlyingSelectOptionTexts() {
+    let selects = document.querySelectorAll('select');
+    selects.forEach(select => {
+        Array.from(select.options).forEach(opt => {
+            let txt = opt.textContent.trim();
+            if (txt.startsWith("0godz")) {
+                let minutes = parseInt(txt.slice(-2));
+                if (minutes === 30) {
+                    opt.textContent = "30 min.";
+                }
+            } else if (/^\d+godz\d{1,2}$/.test(txt)) {
+                let parts = txt.split("godz");
+                let hour = parseInt(parts[0]);
+                let mins = parseInt(parts[1]);
+                let newText = "";
+                if (mins === 0) {
+                    newText = hour + " godz.";
+                } else if (mins === 30) {
+                    newText = hour + ",5 godz.";
+                } else {
+                    newText = txt;
+                }
+                opt.textContent = newText;
+            }
+        });
+    });
+}
+
+window.addEventListener('load', () => {
+    removeOptions();
+    updateUnderlyingSelectOptionTexts();
+});
+removeOptionsObserver.observe(document.body, { childList: true, subtree: true });
+
+
+})();
+
+    /************************************************
+      Przełącznik do włączania/wyłączania wszystkim
+      osobom powiadomień
+     ************************************************/
+
+(function() {
+  'use strict';
+
+  // Utworzenie switcha w zakładce "Uczestnicy"
+  function insertMasterSwitch() {
+    const actorsCollapse = document.getElementById('actors');
+    if (!actorsCollapse) {
+      console.log("[MasterSwitch] Jeszcze nie wykryto uczestników.");
+      return false;
+    }
+    if (document.getElementById('toggle-all-notifications')) {
+      return true;
+    }
+    const toggleContainer = document.createElement('div');
+    toggleContainer.style.padding = '8px 12px';
+    toggleContainer.style.backgroundColor = '#f8f9fa';
+    toggleContainer.style.borderBottom = '1px solid #dee2e6';
+    toggleContainer.innerHTML = `
+      <div class="form-check form-switch m-0">
+        <input class="form-check-input" type="checkbox" id="toggle-all-notifications" style="cursor: pointer;">
+        <label class="form-check-label ms-1" for="toggle-all-notifications" style="cursor: pointer; user-select: none;">
+          Powiadomienia email
+        </label>
+      </div>
+    `;
+    actorsCollapse.insertBefore(toggleContainer, actorsCollapse.firstChild);
+    return true;
+  }
+
+  // Czekanie aż załadują się wymagane elementy
+  const pollInterval = setInterval(() => {
+    if (insertMasterSwitch()) {
+      clearInterval(pollInterval);
+      const actorsInterval = setInterval(() => {
+        if (typeof window.actors === 'object' && typeof window.saveActorsToDom === 'function') {
+          clearInterval(actorsInterval);
+          setupMasterSwitchLogic();
+        } else {
+          console.log("[MasterSwitch] Oczekiwanie na uczestników zgłoszenia...");
+        }
+      }, 1000);
+    }
+  }, 1000);
+
+  function setupMasterSwitchLogic(){
+    console.log("[MasterSwitch] Ustawianie switcha.");
+
+    function allParticipantsOn() {
+      for (const category in window.actors) {
+        for (const participant of window.actors[category]) {
+          if (participant.use_notification == 0) return false;
+        }
+      }
+      return true;
+    }
+
+    function updateMasterSwitch() {
+      const masterSwitch = document.getElementById('toggle-all-notifications');
+      if (masterSwitch) {
+        masterSwitch.checked = allParticipantsOn();
+      }
+    }
+
+    function updateAllBellIcons(){
+      for (const category in window.actors) {
+        for (const actor of window.actors[category]) {
+          const faClass = (actor.use_notification == 1) ? 'fas' : 'far';
+          const selector = `.actor_entry[data-itemtype="${actor.itemtype}"][data-items-id="${actor.items_id}"][data-actortype="${category}"]`;
+          document.querySelectorAll(selector).forEach(entry => {
+            const icon = entry.querySelector('.notify-icon');
+            if (icon) {
+              icon.classList.remove('fas','far');
+              icon.classList.add(faClass);
+            }
+          });
+        }
+      }
+    }
+
+    // Aktualizacja MasterSwitcha
+    const originalSaveActorsToDom = window.saveActorsToDom;
+    window.saveActorsToDom = function() {
+      originalSaveActorsToDom();
+      updateMasterSwitch();
+    };
+
+    // Aktualizacja funkcji zapisu
+    if (typeof window.saveNotificationSettings === 'function') {
+      const originalSaveNotificationSettings = window.saveNotificationSettings;
+      window.saveNotificationSettings = function() {
+        originalSaveNotificationSettings();
+        updateMasterSwitch();
+      };
+    }
+
+    const masterSwitch = document.getElementById('toggle-all-notifications');
+    masterSwitch.addEventListener('change', () => {
+      const newValue = masterSwitch.checked ? 1 : 0;
+      for (const category in window.actors) {
+        for (const actor of window.actors[category]) {
+          actor.use_notification = newValue;
+        }
+      }
+      updateAllBellIcons();
+      window.saveActorsToDom();
+      // Automatyczny zapis ustawienia powiadomień
+      setTimeout(() => {
+        const saveButton = document.querySelector('button[name="update"][form="itil-form"]');
+        if (saveButton) {
+          console.log("[MasterSwitch] Automatyczne zapisywanie.");
+          saveButton.click();
+        } else {
+          console.warn("[MasterSwitch] Nie znaleziono przycisku zapisu.");
+        }
+      }, 500);
+    });
+
+    updateMasterSwitch();
+    updateAllBellIcons();
+
+    // Automatyczne wyłączenie powiadomień po dodaniu nowej osoby jeśli MasterSwitch jest wyłączony
+    setInterval(() => {
+      if (!document.getElementById('toggle-all-notifications').checked) {
+        let changed = false;
+        for (const category in window.actors) {
+          for (const actor of window.actors[category]) {
+            if (actor.use_notification != 0) {
+              actor.use_notification = 0;
+              changed = true;
+            }
+          }
+        }
+        if (changed) {
+          updateAllBellIcons();
+          window.saveActorsToDom();
+          // Automatyczny zapis.
+          const saveButton = document.querySelector('button[name="update"][form="itil-form"]');
+          if (saveButton) {
+            saveButton.click();
+          }
+        }
+      }
+    }, 2000);
+  }
+})();
+
+    /************************************************
+      Zliczanie i wyśiwetlanie łącznego czasu z zadań
+      w zgłoszeniu
+     ************************************************/
+
+(function() {
+    'use strict';
+
+    // Przetworzenie tekstu z czasem zadania na sekundy
+    function parseTaskTime(timeText) {
+        timeText = timeText.trim();
+        let totalSeconds = 0;
+        // Sprawdzenie czy występują godziny
+        if (/godz/i.test(timeText)) {
+            // Klucz do wyłapywania godzin, minut i sekund z czasu zadania
+            let m = timeText.match(/(\d+)\s*godz(?:ina|in|iny)?\s*(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i);
+            if (m) {
+                let hours = parseInt(m[1], 10);
+                let minutes = parseInt(m[2], 10);
+                totalSeconds = hours * 3600 + minutes * 60;
+            } else {
+                console.warn("Nie udało się przetworzyć godzin: " + timeText);
+            }
+        } else {
+            // Klucz do wyłapywania jedynie minut i sekund
+            let m = timeText.match(/(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i);
+            if (m) {
+                let minutes = parseInt(m[1], 10);
+                totalSeconds = minutes * 60;
+            } else {
+                console.warn("Nie udało się przetworzyć minut: " + timeText);
+            }
+        }
+        return totalSeconds;
+    }
+
+    // Formatowanie sumarycznego czasu zgłoszenia
+    function formatTotalTime(totalSeconds) {
+        const totalMinutes = Math.floor(totalSeconds / 60);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        let result = "";
+        if (hours > 0) {
+            result += hours + " godz. ";
+        }
+        result += minutes + " min.";
+        return result;
+    }
+
+    // Sumowanie czasu ze wszystkich zadań
+    function updateTaskTimeSummary() {
+        let totalSeconds = 0;
+        const badges = document.querySelectorAll('.actiontime.badge.bg-orange-lt');
+        console.log("Found " + badges.length + " time badges.");
+        badges.forEach(badge => {
+            const text = badge.textContent.trim();
+            console.log("Badge text: " + text);
+            totalSeconds += parseTaskTime(text);
+        });
+        return formatTotalTime(totalSeconds);
+    }
+
+    // Wyświetlenie łącznego czasu zgłoszenia
+    function insertOrUpdateSummary() {
+        const answerBtn = document.querySelector('button.answer-action');
+        if (!answerBtn) return;
+        let summarySpan = document.getElementById('task-time-summary');
+        if (!summarySpan) {
+            summarySpan = document.createElement('span');
+            summarySpan.id = 'task-time-summary';
+            summarySpan.style.marginLeft = '10px';
+            summarySpan.style.fontWeight = 'bold';
+            answerBtn.parentElement.appendChild(summarySpan);
+        }
+        summarySpan.textContent = "Łączny czas: " + updateTaskTimeSummary();
+    }
+
+    // Załadownie skryptu z opóźnieniem po wczytaniu strony
+    window.addEventListener('load', () => {
+        setTimeout(insertOrUpdateSummary, 1500);
+    });
+
+    // Nasłuchiwanie zmian na osi, by zliczać czas zgłoszenia na bieżąco
+    const observer = new MutationObserver(() => {
+        insertOrUpdateSummary();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
 })();
