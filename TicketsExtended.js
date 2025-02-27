@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      1.9
+// @version      2.0
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -128,6 +128,70 @@
         presetDropdown.setAttribute('data-width', '100%');
         presetDropdown.innerHTML = `
           <option value="">Wybierz tytuł zgłoszenia</option>
+          <optgroup label="NAJCZĘŚCIEJ UŻYWANE">
+            <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
+            <option value="Instalacja dodatkowego oprogramowania">Instalacja dodatkowego oprogramowania</option>
+            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
+            <option value="Rozwiązanie problemu z dostępem do platformy e-Pracownik">Rozwiązanie problemu z dostępem do platformy e-Pracownik</option>
+            <option value="Rozwiązanie problemu z logowaniem do konta domenowego">Rozwiązanie problemu z logowaniem do konta domenowego</option>
+            <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
+            <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
+            <option value="Konfiguracja dostępu do współdzielonej skrzynki e-mail">Konfiguracja dostępu do współdzielonej skrzynki e-mail</option>
+          </optgroup>
+          <optgroup label="WSPARCIE">
+            <option value="Wsparcie w procesie zmiany hasła w usłudze WiPass">Wsparcie w procesie zmiany hasła w usłudze WiPass</option>
+            <option value="Instalacja dodatkowego oprogramowania">Instalacja dodatkowego oprogramowania</option>
+            <option value="Pomoc przy konfiguracji podpisu cyfrowego">Pomoc przy konfiguracji podpisu cyfrowego</option>
+            <option value="Pomoc przy konfiguracji OKTA Verify">Pomoc przy konfiguracji OKTA Verify</option>
+            <option value="Przygotowanie stanowiska pracy">Przygotowanie stanowiska pracy</option>
+            <option value="Konfiguracja połączenia VPN na komputerze">Konfiguracja połączenia VPN na komputerze</option>
+            <option value="Asysta podczas instalacji oprogramowania przez osoby trzecie">Asysta podczas instalacji oprogramowania przez osoby trzecie</option>
+          </optgroup>
+          <optgroup label="ROZWIĄZANIE PROBLEMU">
+            <option value="Rozwiązanie problemu z dostępem do platformy e-Pracownik">Rozwiązanie problemu z dostępem do platformy e-Pracownik</option>
+            <option value="Rozwiązanie problemu z dostępem do platformy Sezame">Rozwiązanie problemu z dostępem do platformy Sezame</option>
+            <option value="Rozwiązanie problemu z dostępem do sieci firmowej">Rozwiązanie problemu z dostępem do sieci firmowej</option>
+            <option value="Rozwiązanie problemu z logowaniem do konta domenowego">Rozwiązanie problemu z logowaniem do konta domenowego</option>
+            <option value="Rozwiązanie problemu z logowaniem do Microsoft 365">Rozwiązanie problemu z logowaniem do Microsoft 365</option>
+            <option value="Rozwiązanie problemu z logowaniem do systemu bankowego">Rozwiązanie problemu z logowaniem do systemu bankowego</option>
+            <option value="Rozwiązanie problemu zdalnego dostępu do komputera">Rozwiązanie problemu zdalnego dostępu do komputera</option>
+            <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
+            <option value="Rozwiązanie problemu z drukowaniem">Rozwiązanie problemu z drukowaniem</option>
+            <option value="Rozwiązanie problemu ze skanowaniem">Rozwiązanie problemu ze skanowaniem</option>
+            <option value="Rozwiązanie problemu z zablokowanym komputerem">Rozwiązanie problemu z zablokowanym komputerem</option>
+          </optgroup>
+          <optgroup label="CZYNNOŚCI ADMINISTRACYJNE">
+            <option value="Reset konfiguracji MFA">Reset konfiguracji MFA</option>
+            <option value="Przypisanie licencji AutoCAD na innego użytkownika">Przypisanie licencji AutoCAD na innego użytkownika</option>
+            <option value="Odzyskanie dostępu do konta w domenie ENGIE">Odzyskanie dostępu do konta w domenie ENGIE</option>
+            <option value="Odblokowanie i administracyjna zmiana hasła domenowego użytkownika">Odblokowanie i administracyjna zmiana hasła domenowego użytkownika</option>
+            <option value="Zablokowanie konta domenowego użytkownika">Zablokowanie konta domenowego użytkownika</option>
+            <option value="Zabezpieczenie danych oraz usunięcie konta domenowego">Zabezpieczenie danych oraz usunięcie konta domenowego</option>
+            <option value="Zabezpieczenie danych z konta domenowego">Zabezpieczenie danych z konta domenowego</option>
+            <option value="Usunięcie konta domenowego">Usunięcie konta domenowego</option>
+          </optgroup>
+          <optgroup label="URZĄDZENIA">
+            <option value="Inwentaryzacja urządzenia">Inwentaryzacja urządzenia</option>
+            <option value="Instalacja systemu operacyjnego przeznaczonego dla korporacji">Instalacja systemu operacyjnego przeznaczonego dla korporacji</option>
+            <option value="Awaryjna konfiguracja komputera dla pracownika">Awaryjna konfiguracja komputera dla pracownika</option>
+            <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
+            <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
+            <option value="Konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
+            <option value="Uzupełnienie profilu użytkownika na komputerze">Uzupełnienie profilu użytkownika na komputerze</option>
+            <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
+            <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
+            <option value="Przygotowanie urządzenia mobilnego">Przygotowanie urządzenia mobilnego</option>
+            <option value="Konfiguracja drukarki/urządzenia wielofunkcyjnego">Konfiguracja drukarki/urządzenia wielofunkcyjnego</option>
+            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
+          </optgroup>
+          <optgroup label="DOSTĘPY">
+            <option value="Konfiguracja dostępów dla nowego użytkownika">Konfiguracja dostępów dla nowego użytkownika</option>
+            <option value="Dodanie nowego pracownika do grupy mailingowej">Dodanie nowego pracownika do grupy mailingowej</option>
+            <option value="Dodanie użytkownika do listy w portalu DMS">Dodanie użytkownika do listy w portalu DMS</option>
+            <option value="Konfiguracja dostępu do współdzielonej skrzynki e-mail">Konfiguracja dostępu do współdzielonej skrzynki e-mail</option>
+            <option value="Przyznanie uprawnień lokalnego administratora na komputerze">Przyznanie uprawnień lokalnego administratora na komputerze</option>
+            <option value="Przyznanie dostępu do katalogu sieciowego">Przyznanie dostępu do katalogu sieciowego</option>
+          </optgroup>
           <optgroup label="PRACE CYKLICZNE">
             <option value="Archiwizacja kopii zapasowych komputerów">Archiwizacja kopii zapasowych komputerów</option>
             <option value="Prace porządkowe w GLPI">Prace porządkowe w GLPI</option>
@@ -137,68 +201,6 @@
             <option value="Porządkowanie licencji Power Apps i PowerBI">Porządkowanie licencji Power Apps i PowerBI</option>
             <option value="Zarządzanie aplikacjami w Portalu Firmy">Zarządzanie aplikacjami w Portalu Firmy</option>
             <option value="Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji">Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji</option>
-          </optgroup>
-          <optgroup label="URZĄDZENIA">
-            <option value="Inwentaryzacja urządzenia">Inwentaryzacja urządzenia</option>
-            <option value="Instalacja systemu operacyjnego przeznaczonego dla korporacji">Instalacja systemu operacyjnego przeznaczonego dla korporacji</option>
-            <option value="Awaryjna konfiguracja nowego komputera dla pracownika">Awaryjna konfiguracja nowego komputera dla pracownika</option>
-            <option value="Konfiguracja nowego komputera dla pracownika">Konfiguracja nowego komputera dla pracownika</option>
-            <option value="Awaryjna konfiguracja komputera dla nowego pracownika">Awaryjna konfiguracja komputera dla nowego pracownika</option>
-            <option value="Konfiguracja komputera dla nowego pracownika">Konfiguracja komputera dla nowego pracownika</option>
-            <option value="Konfiguracja komputera dla wielu użytkowników na obiekt">Konfiguracja komputera dla wielu użytkowników na obiekt</option>
-            <option value="Utworzenie i skonfigurowanie profilu użytkownika na komputerze">Utworzenie i skonfigurowanie profilu użytkownika na komputerze</option>
-            <option value="Uzupełnienie profilu użytkownika na komputerze">Uzupełnienie profilu użytkownika na komputerze</option>
-            <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
-            <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
-            <option value="Przygotowanie urządzenia mobilnego">Przygotowanie urządzenia mobilnego</option>
-            <option value="Konfiguracja telefonu dla nowego pracownika">Konfiguracja telefonu dla nowego pracownika</option>
-            <option value="Konfiguracja drukarki/urządzenia wielofunkcyjnego">Konfiguracja drukarki/urządzenia wielofunkcyjnego</option>
-            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
-          </optgroup>
-          <optgroup label="UDZIELANIE DOSTĘPÓW">
-            <option value="Konfiguracja dostępów dla nowego użytkownika">Konfiguracja dostępów dla nowego użytkownika</option>
-            <option value="Dodanie nowego pracownika do grupy mailingowej">Dodanie nowego pracownika do grupy mailingowej</option>
-            <option value="Dodanie użytkownika do listy w portalu DMS">Dodanie użytkownika do listy w portalu DMS</option>
-            <option value="Konfiguracja dostępu do współdzielonej skrzynki e-mail">Konfiguracja dostępu do współdzielonej skrzynki e-mail</option>
-            <option value="Przyznanie uprawnień lokalnego administratora na komputerze">Przyznanie uprawnień lokalnego administratora na komputerze</option>
-          </optgroup>
-          <optgroup label="OPROGRAMOWANIE">
-            <option value="Instalacja dodatkowego oprogramowania">Instalacja dodatkowego oprogramowania</option>
-            <option value="Konfiguracja połączenia VPN na komputerze">Konfiguracja połączenia VPN na komputerze</option>
-            <option value="Rozwiązanie problemu z logowaniem do Microsoft 365">Rozwiązanie problemu z logowaniem do Microsoft 365</option>
-            <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
-          </optgroup>
-          <optgroup label="PROBLEMY Z SYSTEMAMI KORPO">
-            <option value="Konfiguracja polityki Zscaler">Konfiguracja polityki Zscaler</option>
-            <option value="Pomoc przy konfiguracji OKTA Verify">Pomoc przy konfiguracji OKTA Verify</option>
-            <option value="Rozwiązanie problemu z dostępem do platformy e-Pracownik">Rozwiązanie problemu z dostępem do platformy e-Pracownik</option>
-            <option value="Rozwiązanie problemu z dostępem do platformy Sezame">Rozwiązanie problemu z dostępem do platformy Sezame</option>
-            <option value="Rozwiązanie problemu z logowaniem do konta domenowego">Rozwiązanie problemu z logowaniem do konta domenowego</option>
-            <option value="Rozwiązanie problemu zdalnego dostępu do komputera">Rozwiązanie problemu zdalnego dostępu do komputera</option>
-            <option value="Asysta podczas instalacji oprogramowania przez osoby trzecie">Asysta podczas instalacji oprogramowania przez osoby trzecie</option>
-            <option value="Konfiguracja WiPass">Konfiguracja WiPass</option>
-            <option value="Reset konfiguracji MFA">Reset konfiguracji MFA</option>
-          </optgroup>
-          <optgroup label="CZYNNOŚCI ADMINISTRACYJNE">
-            <option value="Przypisanie licencji AutoCAD na innego użytkownika">Przypisanie licencji AutoCAD na innego użytkownika</option>
-            <option value="Odzyskanie dostępu do konta w domenie ENGIE">Odzyskanie dostępu do konta w domenie ENGIE</option>
-            <option value="Przyznanie dostępu do katalogu sieciowego">Przyznanie dostępu do katalogu sieciowego</option>
-            <option value="Rozwiązanie problemu z zablokowanym komputerem">Rozwiązanie problemu z zablokowanym komputerem</option>
-            <option value="Odblokowanie i administracyjna zmiana hasła domenowego użytkownika">Odblokowanie i administracyjna zmiana hasła domenowego użytkownika</option>
-            <option value="Zablokowanie konta domenowego użytkownika">Zablokowanie konta domenowego użytkownika</option>
-            <option value="Zabezpieczenie danych oraz usunięcie konta domenowego">Zabezpieczenie danych oraz usunięcie konta domenowego</option>
-            <option value="Zabezpieczenie danych z konta domenowego">Zabezpieczenie danych z konta domenowego</option>
-            <option value="Usunięcie konta domenowego">Usunięcie konta domenowego</option>
-          </optgroup>
-          <optgroup label="PROBLEMY Z INFRASTRUKTURĄ">
-            <option value="Rozwiązanie problemu z dostępem do sieci firmowej">Rozwiązanie problemu z dostępem do sieci firmowej</option>
-            <option value="Rozwiązanie problemu z drukowaniem">Rozwiązanie problemu z drukowaniem</option>
-            <option value="Rozwiązanie problemu ze skanowaniem">Rozwiązanie problemu ze skanowaniem</option>
-            <option value="Przygotowanie stanowiska pracy">Przygotowanie stanowiska pracy</option>
-          </optgroup>
-          <optgroup label="SYSTEMY DODATKOWE">
-            <option value="Rozwiązanie problemu z logowaniem do systemu bankowego">Rozwiązanie problemu z logowaniem do systemu bankowego</option>
-            <option value="Pomoc przy konfiguracji podpisu cyfrowego">Pomoc przy konfiguracji podpisu cyfrowego</option>
           </optgroup>
         `;
         dropdownRow.appendChild(presetDropdown);
