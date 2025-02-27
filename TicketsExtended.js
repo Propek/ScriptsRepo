@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.0
+// @version      2.0 HotFix
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -134,6 +134,7 @@
             <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
             <option value="Rozwiązanie problemu z dostępem do platformy e-Pracownik">Rozwiązanie problemu z dostępem do platformy e-Pracownik</option>
             <option value="Rozwiązanie problemu z logowaniem do konta domenowego">Rozwiązanie problemu z logowaniem do konta domenowego</option>
+            <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
             <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
             <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
             <option value="Konfiguracja dostępu do współdzielonej skrzynki e-mail">Konfiguracja dostępu do współdzielonej skrzynki e-mail</option>
