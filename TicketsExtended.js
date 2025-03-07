@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.2
+// @version      2.3
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -192,6 +192,7 @@ presetDropdown.innerHTML = `
             <option value="Konfiguracja dostępu do współdzielonej skrzynki e-mail">Konfiguracja dostępu do współdzielonej skrzynki e-mail</option>
             <option value="Przyznanie uprawnień lokalnego administratora na komputerze">Przyznanie uprawnień lokalnego administratora na komputerze</option>
             <option value="Przyznanie dostępu do katalogu sieciowego">Przyznanie dostępu do katalogu sieciowego</option>
+            <option value="Modyfikacja licencji Microsoft 365">Modyfikacja licencji Microsoft 365</option>
           </optgroup>
           <optgroup label="PRACE CYKLICZNE">
             <option value="Archiwizacja kopii zapasowych komputerów">Archiwizacja kopii zapasowych komputerów</option>
@@ -428,6 +429,7 @@ dropdownRow.appendChild(presetDropdown);
             <option value="Konfiguracja dostępu do współdzielonej skrzynki e-mail">Konfiguracja dostępu do współdzielonej skrzynki e-mail</option>
             <option value="Przyznanie uprawnień lokalnego administratora na komputerze">Przyznanie uprawnień lokalnego administratora na komputerze</option>
             <option value="Przyznanie dostępu do katalogu sieciowego">Przyznanie dostępu do katalogu sieciowego</option>
+            <option value="Modyfikacja licencji Microsoft 365">Modyfikacja licencji Microsoft 365</option>
           </optgroup>
           <optgroup label="PRACE CYKLICZNE">
             <option value="Archiwizacja kopii zapasowych komputerów">Archiwizacja kopii zapasowych komputerów</option>
