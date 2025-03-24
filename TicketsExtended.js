@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.3
+// @version      2.4
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -178,6 +178,7 @@ presetDropdown.innerHTML = `
             <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
             <option value="Konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
+            <option value="Przygotowanie komputera narzędziowego na obiekt">Przygotowanie komputera narzędziowego na obiekt</option>
             <option value="Uzupełnienie profilu użytkownika na komputerze">Uzupełnienie profilu użytkownika na komputerze</option>
             <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
             <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
@@ -415,6 +416,7 @@ dropdownRow.appendChild(presetDropdown);
             <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
             <option value="Konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
+            <option value="Przygotowanie komputera narzędziowego na obiekt">Przygotowanie komputera narzędziowego na obiekt</option>
             <option value="Uzupełnienie profilu użytkownika na komputerze">Uzupełnienie profilu użytkownika na komputerze</option>
             <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
             <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
