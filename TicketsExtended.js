@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.5
+// @version      2.6
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -746,13 +746,109 @@ dropdownRow.appendChild(presetDropdown);
 (function() {
   'use strict';
 
-  // Funkcja przetwarzająca tekst z czasem zadania na sekundy
+  // Mapa sugerowanego czasu dla każdego z tytułów
+  const titleSuggestedTimes = {
+  "Konfiguracja komputera dla pracownika": "N/A",
+  "Instalacja dodatkowego oprogramowania": "N/A",
+  "Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "N/A",
+  "Rozwiązanie problemu z dostępem do platformy e-Pracownik": "N/A",
+  "Rozwiązanie problemu z logowaniem do konta domenowego": "N/A",
+  "Rozwiązanie problemu z synchronizacją OneDrive": "N/A",
+  "Zabezpieczenie danych oraz odłączenie komputera z domeny": "N/A",
+  "Oczyszczenie urządzenia z danych": "N/A",
+  "Konfiguracja dostępu do współdzielonej skrzynki e-mail": "N/A",
+  "Wsparcie w procesie zmiany hasła w usłudze WiPass": "N/A",
+  "Pomoc przy konfiguracji podpisu cyfrowego": "N/A",
+  "Pomoc przy konfiguracji OKTA Verify": "N/A",
+  "Przygotowanie stanowiska pracy": "N/A",
+  "Konfiguracja połączenia VPN na komputerze": "N/A",
+  "Asysta podczas instalacji oprogramowania przez osoby trzecie": "N/A",
+  "Rozwiązanie problemu z dostępem do platformy Sezame": "N/A",
+  "Rozwiązanie problemu z dostępem do sieci firmowej": "N/A",
+  "Rozwiązanie problemu z logowaniem do Microsoft 365": "N/A",
+  "Rozwiązanie problemu z logowaniem do systemu bankowego": "N/A",
+  "Rozwiązanie problemu zdalnego dostępu do komputera": "N/A",
+  "Rozwiązanie problemu z drukowaniem": "N/A",
+  "Rozwiązanie problemu ze skanowaniem": "N/A",
+  "Rozwiązanie problemu z zablokowanym komputerem": "N/A",
+  "Reset konfiguracji MFA": "N/A",
+  "Przypisanie licencji AutoCAD na innego użytkownika": "N/A",
+  "Odzyskanie dostępu do konta w domenie ENGIE": "N/A",
+  "Odblokowanie i administracyjna zmiana hasła domenowego użytkownika": "N/A",
+  "Zablokowanie konta domenowego użytkownika": "N/A",
+  "Zabezpieczenie danych oraz usunięcie konta domenowego": "N/A",
+  "Zabezpieczenie danych z konta domenowego": "N/A",
+  "Usunięcie konta domenowego": "N/A",
+  "Inwentaryzacja urządzenia": "N/A",
+  "Instalacja systemu operacyjnego przeznaczonego dla korporacji": "N/A",
+  "Awaryjna konfiguracja komputera dla pracownika": "N/A",
+  "Awaryjna konfiguracja komputera dla wielu użytkowników": "N/A",
+  "Konfiguracja komputera dla wielu użytkowników": "N/A",
+  "Przygotowanie komputera narzędziowego na obiekt": "N/A",
+  "Uzupełnienie profilu użytkownika na komputerze": "N/A",
+  "Przygotowanie urządzenia mobilnego": "N/A",
+  "Konfiguracja drukarki/urządzenia wielofunkcyjnego": "N/A",
+  "Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "N/A",
+  "Konfiguracja dostępów dla nowego użytkownika": "N/A",
+  "Dodanie nowego pracownika do grupy mailingowej": "N/A",
+  "Dodanie użytkownika do listy w portalu DMS": "N/A",
+  "Przyznanie uprawnień lokalnego administratora na komputerze": "N/A",
+  "Przyznanie dostępu do katalogu sieciowego": "N/A",
+  "Modyfikacja licencji Microsoft 365": "N/A",
+  "Wniosek o przyznanie dodatkowych dostępów dla użytkownika": "N/A",
+  "Archiwizacja kopii zapasowych komputerów": "N/A",
+  "Prace porządkowe w GLPI": "N/A",
+  "Optymalizacja wykorzystania licencji": "N/A",
+  "Porządkowanie nieużywanych kont domenowych": "N/A",
+  "Porządkowanie licencji Microsoft 365": "N/A",
+  "Porządkowanie licencji Power Apps i PowerBI": "N/A",
+  "Zarządzanie aplikacjami w Portalu Firmy": "N/A",
+  "Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "N/A"
+};
+
+
+  // Globalna zmienna do przetrzymywania oczyszczonego tytułu zgłoszenia
+  let initialTicketTitle = null;
+
+  function getCurrentTicketTitle() {
+    if (initialTicketTitle !== null) return initialTicketTitle;
+    const titleSpan = document.querySelector('.navigationheader-title span');
+    if (titleSpan) {
+      let text = titleSpan.textContent.trim();
+      if (text.indexOf("[HLP") !== -1) {
+        text = text.split("[HLP")[0].trim();
+      }
+      initialTicketTitle = text;
+      console.log("Initial cleaned title:", initialTicketTitle);
+      return initialTicketTitle;
+    }
+    const titleElem = document.querySelector('.navigationheader-title');
+    if (titleElem) {
+      let rawText = titleElem.textContent.trim();
+      if (rawText.indexOf("[HLP") !== -1) {
+        rawText = rawText.split("[HLP")[0].trim();
+      }
+      initialTicketTitle = rawText;
+      console.log("Initial cleaned title (fallback):", initialTicketTitle);
+      return initialTicketTitle;
+    }
+    return "";
+  }
+
+  function getSuggestedTime() {
+    const title = getCurrentTicketTitle().trim().toLowerCase();
+    for (const key in titleSuggestedTimes) {
+      if (key.trim().toLowerCase() === title) {
+        return titleSuggestedTimes[key];
+      }
+    }
+    return null;
+  }
+
   function parseTaskTime(timeText) {
     timeText = timeText.trim();
     let totalSeconds = 0;
-    // Sprawdzenie, czy występują godziny
     if (/godz/i.test(timeText)) {
-      // Wyłapywanie godzin, minut i sekund z tekstu
       let m = timeText.match(/(\d+)\s*godz(?:ina|in|iny)?\s*(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i);
       if (m) {
         let hours = parseInt(m[1], 10);
@@ -762,7 +858,6 @@ dropdownRow.appendChild(presetDropdown);
         console.warn("Nie udało się przetworzyć godzin: " + timeText);
       }
     } else {
-      // Wyłapywanie minut i sekund, gdy nie występują godziny
       let m = timeText.match(/(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i);
       if (m) {
         let minutes = parseInt(m[1], 10);
@@ -774,55 +869,88 @@ dropdownRow.appendChild(presetDropdown);
     return totalSeconds;
   }
 
-  // Formatowanie sumarycznego czasu zgłoszenia
   function formatTotalTime(totalSeconds) {
     const totalMinutes = Math.floor(totalSeconds / 60);
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     let result = "";
-    if (hours > 0) {
-      result += hours + " godz. ";
-    }
+    if (hours > 0) result += hours + " godz. ";
     result += minutes + " min.";
     return result;
   }
 
-  // Sumowanie czasu ze wszystkich zadań
   function updateTaskTimeSummary() {
     let totalSeconds = 0;
     const badges = document.querySelectorAll('.actiontime.badge.bg-orange-lt');
-    console.log("Znaleziono " + badges.length + " odznak czasu.");
     badges.forEach(badge => {
       const text = badge.textContent.trim();
-      console.log("Tekst odznaki: " + text);
       totalSeconds += parseTaskTime(text);
     });
     return formatTotalTime(totalSeconds);
   }
 
-  // Wyświetlenie łącznego czasu zgłoszenia
-  function insertOrUpdateSummary() {
-    const answerBtn = document.querySelector('button.answer-action');
-    if (!answerBtn) return;
-    let summarySpan = document.getElementById('task-time-summary');
-    if (!summarySpan) {
-      summarySpan = document.createElement('span');
-      summarySpan.id = 'task-time-summary';
-      summarySpan.style.marginLeft = '10px';
-      summarySpan.style.fontWeight = 'bold';
-      answerBtn.parentElement.appendChild(summarySpan);
-    }
-    summarySpan.textContent = "Łączny czas: " + updateTaskTimeSummary();
+  let observer = null;
+
+ function insertOrUpdateSummary() {
+  // Tymczasowe odłączenie obserwatora
+  if (observer) observer.disconnect();
+
+  // Panel nawigacyjny po lewej stronie
+  const navPanel = document.getElementById('tabspanel');
+  if (!navPanel) return;
+
+  // Utworzenie diva z czasem i sugerowanym czasem.
+  let summaryContainer = document.getElementById('task-time-summary-container');
+  if (!summaryContainer) {
+    summaryContainer = document.createElement('li');
+    summaryContainer.id = 'task-time-summary-container';
+    summaryContainer.classList.add('nav-item');
+    summaryContainer.style.padding = '10px';
+    summaryContainer.style.borderTop = '1px solid #ccc';
+    // Dodanie jako ostatniego elemntu listy nawigacji.
+    navPanel.appendChild(summaryContainer);
+
+    // Utworzenie dwóch osobnych elementów do łącznego czasu i sugerowanego.
+    const totalTimeEl = document.createElement('div');
+    totalTimeEl.id = 'total-time-el';
+    summaryContainer.appendChild(totalTimeEl);
+
+    const suggestedTimeEl = document.createElement('div');
+    suggestedTimeEl.id = 'suggested-time-el';
+    summaryContainer.appendChild(suggestedTimeEl);
   }
 
-  // Uruchomienie funkcji z opóźnieniem po załadowaniu strony
+  // Odświeżenie łącznego czasu.
+  const totalTimeEl = document.getElementById('total-time-el');
+   totalTimeEl.innerHTML = "Łączny czas: <strong>" + updateTaskTimeSummary() + "</strong>";
+
+  // Odświeżenie sugerowanego czasu
+  const suggestedTimeEl = document.getElementById('suggested-time-el');
+  const suggestedTime = getSuggestedTime();
+  if (suggestedTime) {
+    suggestedTimeEl.innerHTML = "Sugerowany czas: <strong>" + suggestedTime + "</strong>";
+  } else {
+    suggestedTimeEl.innerHTML = "";
+  }
+
+  // Podłączenie obserwatora.
+  if (observer) {
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+
+  // Odświeżenie po odświeżeniu strony.
   window.addEventListener('load', () => {
     setTimeout(insertOrUpdateSummary, 1500);
   });
 
-  // Obserwator zmian, aby na bieżąco aktualizować sumę czasu
-  const observer = new MutationObserver(() => {
-    insertOrUpdateSummary();
+  let summaryTimeout = null;
+  observer = new MutationObserver(() => {
+    if (summaryTimeout) clearTimeout(summaryTimeout);
+    summaryTimeout = setTimeout(() => {
+      insertOrUpdateSummary();
+    }, 300);
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
