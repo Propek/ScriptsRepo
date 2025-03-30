@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.7
+// @version      2.8
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -746,104 +746,69 @@ dropdownRow.appendChild(presetDropdown);
 (function() {
   'use strict';
 
-  // Mapa sugerowanego czasu dla każdego z tytułów
-  const titleSuggestedTimes = {
-  "Konfiguracja komputera dla pracownika": "2 godz",
-  "Instalacja dodatkowego oprogramowania": "30 min",
-  "Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "30 min",
-  "Rozwiązanie problemu z dostępem do platformy e-Pracownik": "30 min",
-  "Rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
-  "Rozwiązanie problemu z synchronizacją OneDrive": "30 min",
-  "Zabezpieczenie danych oraz odłączenie komputera z domeny": "3 godz",
-  "Oczyszczenie urządzenia z danych": "2 godz",
-  "Konfiguracja dostępu do współdzielonej skrzynki e-mail": "30 min",
-  "Wsparcie w procesie zmiany hasła w usłudze WiPass": "30 min",
-  "Pomoc przy konfiguracji podpisu cyfrowego": "30 min",
-  "Pomoc przy konfiguracji OKTA Verify": "30 min",
-  "Przygotowanie stanowiska pracy": "30 min",
-  "Konfiguracja połączenia VPN na komputerze": "30 min",
-  "Asysta podczas instalacji oprogramowania przez osoby trzecie": "30 min",
-  "Rozwiązanie problemu z dostępem do platformy Sezame": "30 min",
-  "Rozwiązanie problemu z dostępem do sieci firmowej": "30 min",
-  "Rozwiązanie problemu z logowaniem do Microsoft 365": "30 min",
-  "Rozwiązanie problemu z logowaniem do systemu bankowego": "30 min",
-  "Rozwiązanie problemu zdalnego dostępu do komputera": "30 min",
-  "Rozwiązanie problemu z drukowaniem": "30 min",
-  "Rozwiązanie problemu ze skanowaniem": "30 min",
-  "Rozwiązanie problemu z zablokowanym komputerem": "1 godz",
-  "Reset konfiguracji MFA": "30 min",
-  "Przypisanie licencji AutoCAD na innego użytkownika": "30 min",
-  "Odzyskanie dostępu do konta w domenie ENGIE": "30 min",
-  "Odblokowanie i administracyjna zmiana hasła domenowego użytkownika": "30 min",
-  "Zablokowanie konta domenowego użytkownika": "30 min",
-  "Zabezpieczenie danych oraz usunięcie konta domenowego": "4 godz",
-  "Zabezpieczenie danych z konta domenowego": "2 godz",
-  "Usunięcie konta domenowego": "1 godz",
-  "Inwentaryzacja urządzenia": "30 min",
-  "Instalacja systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
-  "Awaryjna konfiguracja komputera dla pracownika": "2 godz",
-  "Awaryjna konfiguracja komputera dla wielu użytkowników": "2 godz",
-  "Konfiguracja komputera dla wielu użytkowników": "2 godz",
-  "Przygotowanie komputera narzędziowego na obiekt": "2 godz",
-  "Uzupełnienie profilu użytkownika na komputerze": "30 min",
-  "Przygotowanie urządzenia mobilnego": "2 godz",
-  "Konfiguracja drukarki/urządzenia wielofunkcyjnego": "1 godz",
-  "Konfiguracja dostępów dla nowego użytkownika": "30 min",
-  "Dodanie nowego pracownika do grupy mailingowej": "30 min",
-  "Dodanie użytkownika do listy w portalu DMS": "30 min",
-  "Przyznanie uprawnień lokalnego administratora na komputerze": "30 min",
-  "Przyznanie dostępu do katalogu sieciowego": "30 min",
-  "Modyfikacja licencji Microsoft 365": "30 min",
-  "Wniosek o przyznanie dodatkowych dostępów dla użytkownika": "30 min",
-  "Archiwizacja kopii zapasowych komputerów": "8 godz",
-  "Prace porządkowe w GLPI": "4 godz",
-  "Optymalizacja wykorzystania licencji": "4 godz",
-  "Porządkowanie nieużywanych kont domenowych": "4 godz",
-  "Porządkowanie licencji Microsoft 365": "2 godz",
-  "Porządkowanie licencji Power Apps i PowerBI": "2 godz",
-  "Zarządzanie aplikacjami w Portalu Firmy": "8 godz",
-  "Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
-};
-
-
-  // Globalna zmienna do przetrzymywania oczyszczonego tytułu zgłoszenia
-  let initialTicketTitle = null;
-
-  function getCurrentTicketTitle() {
-    if (initialTicketTitle !== null) return initialTicketTitle;
-    const titleSpan = document.querySelector('.navigationheader-title span');
-    if (titleSpan) {
-      let text = titleSpan.textContent.trim();
-      if (text.indexOf("[HLP") !== -1) {
-        text = text.split("[HLP")[0].trim();
+  /********************
+   * Dodaj style CSS dla etykiety dodatkowej
+   ********************/
+  function addAdditionalLabelStyles() {
+    if (document.getElementById('additional-label-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'additional-label-styles';
+    style.textContent = `
+      /* Upewnij się, że kontener pola (field-container) ma pozycjonowanie relative */
+      .field-container.relative {
+         position: relative;
       }
-      initialTicketTitle = text;
-      console.log("Initial cleaned title:", initialTicketTitle);
-      return initialTicketTitle;
-    }
-    const titleElem = document.querySelector('.navigationheader-title');
-    if (titleElem) {
-      let rawText = titleElem.textContent.trim();
-      if (rawText.indexOf("[HLP") !== -1) {
-        rawText = rawText.split("[HLP")[0].trim();
+      /* Bazowy styl etykiety dodatkowej – absolutnie pozycjonowana wewnątrz kontenera o stałej szerokości */
+      .dodatkowy-label {
+          font-weight: bold;
+          color: blue;  /* domyślnie niebieski */
+          position: absolute;
+          right: 5px;       /* dopasuj według potrzeb */
+          top: 130%;
+          transform: translateY(-50%);
+          white-space: nowrap;
+          pointer-events: none;
+          background: transparent;
+          width: 200px;     /* stała szerokość, aby uniknąć zmian układu */
+          text-align: right;
+          overflow: hidden;
+          text-overflow: ellipsis;
       }
-      initialTicketTitle = rawText;
-      console.log("Initial cleaned title (fallback):", initialTicketTitle);
-      return initialTicketTitle;
-    }
-    return "";
+      /* Gdy etykieta ma reprezentować pełną kwalifikację – tekst "Kwalifikuje się jako dodatkowe" */
+      .dodatkowy-label.dodatkowy {
+          right: 85px;    /* przesunięcie bardziej w lewo */
+          color: green;    /* kolor zielony */
+          width: 215px;
+      }
+      /* Gdy etykieta ma reprezentować potencjalną kwalifikację – tekst "Potencjalnie dodatkowe" */
+      .dodatkowy-label.potencjalnie {
+          right: 130px;    /* mniejsze przesunięcie */
+          color: blue;     /* kolor niebieski */
+      }
+      /* Efekt falowania */
+      .dodatkowy-label::after {
+          content: "";
+          position: absolute;
+          left: -100%;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(255,255,255,0.2);
+          animation: ripple 2s infinite;
+      }
+      @keyframes ripple {
+          0% { left: -100%; }
+          50% { left: 100%; }
+          100% { left: 100%; }
+      }
+    `;
+    document.head.appendChild(style);
   }
+  addAdditionalLabelStyles();
 
-  function getSuggestedTime() {
-    const title = getCurrentTicketTitle().trim().toLowerCase();
-    for (const key in titleSuggestedTimes) {
-      if (key.trim().toLowerCase() === title) {
-        return titleSuggestedTimes[key];
-      }
-    }
-    return null;
-  }
-
+  /********************
+   * Funkcje pomocnicze
+   ********************/
   function parseTaskTime(timeText) {
     timeText = timeText.trim();
     let totalSeconds = 0;
@@ -878,6 +843,201 @@ dropdownRow.appendChild(presetDropdown);
     return result;
   }
 
+  function getTotalTimeSeconds() {
+    let totalSeconds = 0;
+    const badges = document.querySelectorAll('.actiontime.badge.bg-orange-lt');
+    badges.forEach(badge => {
+      totalSeconds += parseTaskTime(badge.textContent.trim());
+    });
+    return totalSeconds;
+  }
+
+  function getTotalTimeMinutes() {
+    return Math.floor(getTotalTimeSeconds() / 60);
+  }
+
+  function parseSuggestedTimeMinutes(suggestedStr) {
+    if (!suggestedStr) return null;
+    const m = suggestedStr.match(/(\d+)/);
+    if (m) {
+      return parseInt(m[1], 10);
+    }
+    return null;
+  }
+
+  let initialTicketTitle = null;
+  function getCurrentTicketTitle() {
+    if (initialTicketTitle !== null) return initialTicketTitle;
+    const titleSpan = document.querySelector('.navigationheader-title span');
+    if (titleSpan) {
+      let text = titleSpan.textContent.trim();
+      if (text.indexOf("[HLP") !== -1) {
+        text = text.split("[HLP")[0].trim();
+      }
+      initialTicketTitle = text;
+      console.log("Tytuł zgłoszenia (oczyszczony):", initialTicketTitle);
+      return initialTicketTitle;
+    }
+    const titleElem = document.querySelector('.navigationheader-title');
+    if (titleElem) {
+      let rawText = titleElem.textContent.trim();
+      if (rawText.indexOf("[HLP") !== -1) {
+        rawText = rawText.split("[HLP")[0].trim();
+      }
+      initialTicketTitle = rawText;
+      console.log("Tytuł zgłoszenia (fallback):", initialTicketTitle);
+      return initialTicketTitle;
+    }
+    return "";
+  }
+
+  // Mapa sugerowanego czasu – klucze muszą być zapisane małymi literami
+  const titleSuggestedTimes = {
+    "konfiguracja komputera dla pracownika": "2 godz",
+    "instalacja dodatkowego oprogramowania": "30 min",
+    "instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "30 min",
+    "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
+    "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
+    "rozwiązanie problemu z synchronizacją onedrive": "30 min",
+    "zabezpieczenie danych oraz odłączenie komputera z domeny": "3 godz",
+    "oczyszczenie urządzenia z danych": "2 godz",
+    "konfiguracja dostępu do współdzielonej skrzynki e-mail": "30 min",
+    "wsparcie w procesie zmiany hasła w usłudze wiPass": "30 min",
+    "pomoc przy konfiguracji podpisu cyfrowego": "30 min",
+    "pomoc przy konfiguracji okta verify": "30 min",
+    "przygotowanie stanowiska pracy": "30 min",
+    "konfiguracja połączenia vpn na komputerze": "30 min",
+    "asysta podczas instalacji oprogramowania przez osoby trzecie": "30 min",
+    "rozwiązanie problemu z dostępem do platformy sezame": "30 min",
+    "rozwiązanie problemu z dostępem do sieci firmowej": "30 min",
+    "rozwiązanie problemu z logowaniem do microsoft 365": "30 min",
+    "rozwiązanie problemu z logowaniem do systemu bankowego": "30 min",
+    "rozwiązanie problemu zdalnego dostępu do komputera": "30 min",
+    "rozwiązanie problemu z drukowaniem": "30 min",
+    "rozwiązanie problemu ze skanowaniem": "30 min",
+    "rozwiązanie problemu z zablokowanym komputerem": "1 godz",
+    "reset konfiguracji mfa": "30 min",
+    "przypisanie licencji autocad na innego użytkownika": "30 min",
+    "odzyskanie dostępu do konta w domenie engie": "30 min",
+    "odblokowanie i administracyjna zmiana hasła domenowego użytkownika": "30 min",
+    "zablokowanie konta domenowego użytkownika": "30 min",
+    "zabezpieczenie danych oraz usunięcie konta domenowego": "4 godz",
+    "zabezpieczenie danych z konta domenowego": "2 godz",
+    "usunięcie konta domenowego": "1 godz",
+    "inwentaryzacja urządzenia": "30 min",
+    "instalacja systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
+    "awaryjna konfiguracja komputera dla pracownika": "2 godz",
+    "awaryjna konfiguracja komputera dla wielu użytkowników": "2 godz",
+    "konfiguracja komputera dla wielu użytkowników": "2 godz",
+    "przygotowanie komputera narzędziowego na obiekt": "2 godz",
+    "uzupełnienie profilu użytkownika na komputerze": "30 min",
+    "przygotowanie urządzenia mobilnego": "2 godz",
+    "konfiguracja drukarki/urządzenia wielofunkcyjnego": "1 godz",
+    "konfiguracja dostępów dla nowego użytkownika": "30 min",
+    "dodanie nowego pracownika do grupy mailingowej": "30 min",
+    "dodanie użytkownika do listy w portalu dms": "30 min",
+    "przyznanie uprawnień lokalnego administratora na komputerze": "30 min",
+    "przyznanie dostępu do katalogu sieciowego": "30 min",
+    "modyfikacja licencji microsoft 365": "30 min",
+    "wniosek o przyznanie dodatkowych dostępów dla użytkownika": "30 min",
+    "archiwizacja kopii zapasowych komputerów": "8 godz",
+    "prace porządkowe w glpi": "4 godz",
+    "optymalizacja wykorzystania licencji": "4 godz",
+    "porządkowanie nieużywanych kont domenowych": "4 godz",
+    "porządkowanie licencji microsoft 365": "2 godz",
+    "porządkowanie licencji power apps i powerbi": "2 godz",
+    "zarządzanie aplikacjami w portalu firmy": "8 godz",
+    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
+    // Dodaj kolejne mapowania, jeśli potrzeba
+  };
+
+  function getSuggestedTime() {
+    const title = getCurrentTicketTitle().trim().toLowerCase();
+    return titleSuggestedTimes[title] || null;
+  }
+
+  function checkTitleCondition() {
+    const titleLower = getCurrentTicketTitle().toLowerCase();
+    if (titleLower.indexOf("rozwiązanie") !== -1) return true;
+    const specificTitles = [
+      "konfiguracja komputera dla pracownika",
+      "instalacja dodatkowego oprogramowania",
+      "rozwiązanie problemu z dostępem do platformy e-pracownik",
+      "rozwiązanie problemu z logowaniem do konta domenowego",
+      "rozwiązanie problemu z synchronizacją onedrive",
+      "rozwiązanie problemu z dostępem do platformy sezame",
+      "rozwiązanie problemu z dostępem do sieci firmowej",
+      "rozwiązanie problemu z logowaniem do microsoft 365",
+      "rozwiązanie problemu z logowaniem do systemu bankowego",
+      "rozwiązanie problemu zdalnego dostępu do komputera",
+      "rozwiązanie problemu z drukowaniem",
+      "rozwiązanie problemu ze skanowaniem",
+      "rozwiązanie problemu z zablokowanym komputerem",
+    ];
+    return specificTitles.includes(titleLower);
+  }
+
+  function checkTimeCondition() {
+    const suggestedStr = getSuggestedTime();
+    const suggestedMinutes = parseSuggestedTimeMinutes(suggestedStr);
+    if (suggestedMinutes === null) return false;
+    const totalMinutes = getTotalTimeMinutes();
+    return totalMinutes > suggestedMinutes;
+  }
+
+  /********************
+   * Aktualizacja etykiety dodatkowej
+   ********************/
+  function updateAdditionalLabel() {
+  const ticketTitle = getCurrentTicketTitle().toLowerCase();
+  let resultText = "";
+  // Jeśli tytuł zaczyna się od "awaryjne" – zawsze kwalifikuje się jako dodatkowe
+  if (ticketTitle.startsWith("awaryjne")) {
+    resultText = "Kwalifikuje się jako dodatkowe";
+  } else {
+    const titleCond = checkTitleCondition();
+    const timeCond = checkTimeCondition();
+    if (titleCond && timeCond) {
+      resultText = "Kwalifikuje się jako dodatkowe";
+    } else if (titleCond || timeCond) {
+      resultText = "Potencjalnie dodatkowe";
+    }
+  }
+  // ... (reszta kodu pozostaje bez zmian)
+  let fieldRow = null;
+  const rows = document.querySelectorAll('div.form-field.row.col-12.mb-2');
+  rows.forEach(row => {
+    const label = row.querySelector('label');
+    if (label && label.textContent.trim().toLowerCase().includes("dodatkowe")) {
+      fieldRow = row;
+    }
+  });
+  if (!fieldRow) return;
+  let container = fieldRow.querySelector('div.field-container');
+  if (!container) return;
+  container.classList.add("relative");
+  let labelEl = container.querySelector('#additional_label_text');
+  if (!labelEl) {
+    labelEl = document.createElement('div');
+    labelEl.id = 'additional_label_text';
+    labelEl.className = 'dodatkowy-label';
+    container.appendChild(labelEl);
+  }
+  if (labelEl.textContent !== resultText) {
+    labelEl.textContent = resultText;
+  }
+  labelEl.classList.remove("potencjalnie", "dodatkowy");
+  if (resultText === "Kwalifikuje się jako dodatkowe") {
+    labelEl.classList.add("dodatkowy");
+  } else if (resultText === "Potencjalnie dodatkowe") {
+    labelEl.classList.add("potencjalnie");
+  }
+}
+
+
+  /********************
+   * Aktualizacja podsumowania czasu zadania
+   ********************/
   function updateTaskTimeSummary() {
     let totalSeconds = 0;
     const badges = document.querySelectorAll('.actiontime.badge.bg-orange-lt');
@@ -889,67 +1049,78 @@ dropdownRow.appendChild(presetDropdown);
   }
 
   let observer = null;
-
- function insertOrUpdateSummary() {
-  // Tymczasowe odłączenie obserwatora
-  if (observer) observer.disconnect();
-
-  // Panel nawigacyjny po lewej stronie
-  const navPanel = document.getElementById('tabspanel');
-  if (!navPanel) return;
-
-  // Utworzenie diva z czasem i sugerowanym czasem.
-  let summaryContainer = document.getElementById('task-time-summary-container');
-  if (!summaryContainer) {
-    summaryContainer = document.createElement('li');
-    summaryContainer.id = 'task-time-summary-container';
-    summaryContainer.classList.add('nav-item');
-    summaryContainer.style.padding = '10px';
-    summaryContainer.style.borderTop = '1px solid #ccc';
-    // Dodanie jako ostatniego elemntu listy nawigacji.
-    navPanel.appendChild(summaryContainer);
-
-    // Utworzenie dwóch osobnych elementów do łącznego czasu i sugerowanego.
-    const totalTimeEl = document.createElement('div');
-    totalTimeEl.id = 'total-time-el';
-    summaryContainer.appendChild(totalTimeEl);
-
-    const suggestedTimeEl = document.createElement('div');
-    suggestedTimeEl.id = 'suggested-time-el';
-    summaryContainer.appendChild(suggestedTimeEl);
+  function insertOrUpdateSummary() {
+    if (observer) observer.disconnect();
+    const navPanel = document.getElementById('tabspanel');
+    if (!navPanel) return;
+    let summaryContainer = document.getElementById('task-time-summary-container');
+    if (!summaryContainer) {
+      summaryContainer = document.createElement('li');
+      summaryContainer.id = 'task-time-summary-container';
+      summaryContainer.classList.add('nav-item');
+      summaryContainer.style.padding = '10px';
+      summaryContainer.style.borderTop = '1px solid #ccc';
+      navPanel.appendChild(summaryContainer);
+      const totalTimeEl = document.createElement('div');
+      totalTimeEl.id = 'total-time-el';
+      summaryContainer.appendChild(totalTimeEl);
+      const suggestedTimeEl = document.createElement('div');
+      suggestedTimeEl.id = 'suggested-time-el';
+      summaryContainer.appendChild(suggestedTimeEl);
+    }
+    const totalTimeEl = document.getElementById('total-time-el');
+    totalTimeEl.innerHTML = "Łączny czas: <strong>" + updateTaskTimeSummary() + "</strong>";
+    const suggestedTimeEl = document.getElementById('suggested-time-el');
+    const suggestedTime = getSuggestedTime();
+    if (suggestedTime) {
+      suggestedTimeEl.innerHTML = "Sugerowany czas: <strong>" + suggestedTime + "</strong>";
+    } else {
+      suggestedTimeEl.innerHTML = "";
+    }
+    if (observer) {
+      observer.observe(document.body, { childList: true, subtree: true });
+    }
   }
 
-  // Odświeżenie łącznego czasu.
-  const totalTimeEl = document.getElementById('total-time-el');
-   totalTimeEl.innerHTML = "Łączny czas: <strong>" + updateTaskTimeSummary() + "</strong>";
-
-  // Odświeżenie sugerowanego czasu
-  const suggestedTimeEl = document.getElementById('suggested-time-el');
-  const suggestedTime = getSuggestedTime();
-  if (suggestedTime) {
-    suggestedTimeEl.innerHTML = "Sugerowany czas: <strong>" + suggestedTime + "</strong>";
-  } else {
-    suggestedTimeEl.innerHTML = "";
-  }
-
-  // Podłączenie obserwatora.
-  if (observer) {
-    observer.observe(document.body, { childList: true, subtree: true });
-  }
-}
-
-
-  // Odświeżenie po odświeżeniu strony.
+  /********************
+   * Inicjalizacja i okresowa aktualizacja
+   ********************/
   window.addEventListener('load', () => {
-    setTimeout(insertOrUpdateSummary, 1500);
+    setTimeout(() => {
+      insertOrUpdateSummary();
+      updateAdditionalLabel();
+    }, 1500);
   });
-
   let summaryTimeout = null;
   observer = new MutationObserver(() => {
     if (summaryTimeout) clearTimeout(summaryTimeout);
     summaryTimeout = setTimeout(() => {
       insertOrUpdateSummary();
+      updateAdditionalLabel();
     }, 300);
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
+  setInterval(updateAdditionalLabel, 5000);
+
+  /********************
+   * Ujawnienie funkcji pomocniczych do globalnego zakresu (opcjonalnie)
+   ********************/
+  window.myHelpers = {
+    getCurrentTicketTitle,
+    parseTaskTime,
+    formatTotalTime,
+    getTotalTimeSeconds,
+    getTotalTimeMinutes,
+    parseSuggestedTimeMinutes,
+    getSuggestedTime,
+    checkTitleCondition,
+    checkTimeCondition,
+    updateTaskTimeSummary,
+    updateAdditionalLabel,
+    insertOrUpdateSummary
+  };
+
+})();
   });
   observer.observe(document.body, { childList: true, subtree: true });
 })();
