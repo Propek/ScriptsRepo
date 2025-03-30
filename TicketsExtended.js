@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.8
+// @version      2.9
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -747,7 +747,7 @@ dropdownRow.appendChild(presetDropdown);
   'use strict';
 
   /********************
-   * Dodaj style CSS dla etykiety dodatkowej
+   * Style CSS dla etykiety dodatkowej
    ********************/
   function addAdditionalLabelStyles() {
     if (document.getElementById('additional-label-styles')) return;
@@ -761,7 +761,7 @@ dropdownRow.appendChild(presetDropdown);
       /* Bazowy styl etykiety dodatkowej – absolutnie pozycjonowana wewnątrz kontenera o stałej szerokości */
       .dodatkowy-label {
           font-weight: bold;
-          color: blue;  /* domyślnie niebieski */
+          color: #3275b2;  /* domyślnie niebieski */
           position: absolute;
           right: 5px;       /* dopasuj według potrzeb */
           top: 130%;
@@ -783,7 +783,7 @@ dropdownRow.appendChild(presetDropdown);
       /* Gdy etykieta ma reprezentować potencjalną kwalifikację – tekst "Potencjalnie dodatkowe" */
       .dodatkowy-label.potencjalnie {
           right: 130px;    /* mniejsze przesunięcie */
-          color: blue;     /* kolor niebieski */
+          color: #3275b2;     /* kolor niebieski */
       }
       /* Efekt falowania */
       .dodatkowy-label::after {
@@ -894,60 +894,60 @@ dropdownRow.appendChild(presetDropdown);
   // Mapa sugerowanego czasu – klucze muszą być zapisane małymi literami
   const titleSuggestedTimes = {
     "konfiguracja komputera dla pracownika": "2 godz",
-    "instalacja dodatkowego oprogramowania": "30 min",
-    "instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "30 min",
-    "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
-    "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
-    "rozwiązanie problemu z synchronizacją onedrive": "30 min",
-    "zabezpieczenie danych oraz odłączenie komputera z domeny": "3 godz",
-    "oczyszczenie urządzenia z danych": "2 godz",
-    "konfiguracja dostępu do współdzielonej skrzynki e-mail": "30 min",
-    "wsparcie w procesie zmiany hasła w usłudze wiPass": "30 min",
-    "pomoc przy konfiguracji podpisu cyfrowego": "30 min",
-    "pomoc przy konfiguracji okta verify": "30 min",
-    "przygotowanie stanowiska pracy": "30 min",
-    "konfiguracja połączenia vpn na komputerze": "30 min",
-    "asysta podczas instalacji oprogramowania przez osoby trzecie": "30 min",
-    "rozwiązanie problemu z dostępem do platformy sezame": "30 min",
-    "rozwiązanie problemu z dostępem do sieci firmowej": "30 min",
-    "rozwiązanie problemu z logowaniem do microsoft 365": "30 min",
-    "rozwiązanie problemu z logowaniem do systemu bankowego": "30 min",
-    "rozwiązanie problemu zdalnego dostępu do komputera": "30 min",
-    "rozwiązanie problemu z drukowaniem": "30 min",
-    "rozwiązanie problemu ze skanowaniem": "30 min",
-    "rozwiązanie problemu z zablokowanym komputerem": "1 godz",
-    "reset konfiguracji mfa": "30 min",
-    "przypisanie licencji autocad na innego użytkownika": "30 min",
-    "odzyskanie dostępu do konta w domenie engie": "30 min",
-    "odblokowanie i administracyjna zmiana hasła domenowego użytkownika": "30 min",
-    "zablokowanie konta domenowego użytkownika": "30 min",
-    "zabezpieczenie danych oraz usunięcie konta domenowego": "4 godz",
-    "zabezpieczenie danych z konta domenowego": "2 godz",
-    "usunięcie konta domenowego": "1 godz",
-    "inwentaryzacja urządzenia": "30 min",
-    "instalacja systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
-    "awaryjna konfiguracja komputera dla pracownika": "2 godz",
-    "awaryjna konfiguracja komputera dla wielu użytkowników": "2 godz",
-    "konfiguracja komputera dla wielu użytkowników": "2 godz",
-    "przygotowanie komputera narzędziowego na obiekt": "2 godz",
-    "uzupełnienie profilu użytkownika na komputerze": "30 min",
-    "przygotowanie urządzenia mobilnego": "2 godz",
-    "konfiguracja drukarki/urządzenia wielofunkcyjnego": "1 godz",
-    "konfiguracja dostępów dla nowego użytkownika": "30 min",
-    "dodanie nowego pracownika do grupy mailingowej": "30 min",
-    "dodanie użytkownika do listy w portalu dms": "30 min",
-    "przyznanie uprawnień lokalnego administratora na komputerze": "30 min",
-    "przyznanie dostępu do katalogu sieciowego": "30 min",
-    "modyfikacja licencji microsoft 365": "30 min",
-    "wniosek o przyznanie dodatkowych dostępów dla użytkownika": "30 min",
-    "archiwizacja kopii zapasowych komputerów": "8 godz",
-    "prace porządkowe w glpi": "4 godz",
-    "optymalizacja wykorzystania licencji": "4 godz",
-    "porządkowanie nieużywanych kont domenowych": "4 godz",
-    "porządkowanie licencji microsoft 365": "2 godz",
-    "porządkowanie licencji power apps i powerbi": "2 godz",
-    "zarządzanie aplikacjami w portalu firmy": "8 godz",
-    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
+  "instalacja dodatkowego oprogramowania": "30 min",
+  "instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "30 min",
+  "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
+  "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
+  "rozwiązanie problemu z synchronizacją onedrive": "30 min",
+  "zabezpieczenie danych oraz odłączenie komputera z domeny": "3 godz",
+  "oczyszczenie urządzenia z danych": "2 godz",
+  "konfiguracja dostępu do współdzielonej skrzynki e-mail": "30 min",
+  "wsparcie w procesie zmiany hasła w usłudze wiPass": "30 min",
+  "pomoc przy konfiguracji podpisu cyfrowego": "30 min",
+  "pomoc przy konfiguracji okta verify": "30 min",
+  "przygotowanie stanowiska pracy": "30 min",
+  "konfiguracja połączenia vpn na komputerze": "30 min",
+  "asysta podczas instalacji oprogramowania przez osoby trzecie": "30 min",
+  "rozwiązanie problemu z dostępem do platformy sezame": "30 min",
+  "rozwiązanie problemu z dostępem do sieci firmowej": "30 min",
+  "rozwiązanie problemu z logowaniem do microsoft 365": "30 min",
+  "rozwiązanie problemu z logowaniem do systemu bankowego": "30 min",
+  "rozwiązanie problemu zdalnego dostępu do komputera": "30 min",
+  "rozwiązanie problemu z drukowaniem": "30 min",
+  "rozwiązanie problemu ze skanowaniem": "30 min",
+  "rozwiązanie problemu z zablokowanym komputerem": "1 godz",
+  "reset konfiguracji mfa": "30 min",
+  "przypisanie licencji autocad na innego użytkownika": "30 min",
+  "odzyskanie dostępu do konta w domenie engie": "30 min",
+  "odblokowanie i administracyjna zmiana hasła domenowego użytkownika": "30 min",
+  "zablokowanie konta domenowego użytkownika": "30 min",
+  "zabezpieczenie danych oraz usunięcie konta domenowego": "4 godz",
+  "zabezpieczenie danych z konta domenowego": "2 godz",
+  "usunięcie konta domenowego": "1 godz",
+  "inwentaryzacja urządzenia": "30 min",
+  "instalacja systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
+  "awaryjna konfiguracja komputera dla pracownika": "2 godz",
+  "awaryjna konfiguracja komputera dla wielu użytkowników": "2 godz",
+  "konfiguracja komputera dla wielu użytkowników": "2 godz",
+  "przygotowanie komputera narzędziowego na obiekt": "2 godz",
+  "uzupełnienie profilu użytkownika na komputerze": "30 min",
+  "przygotowanie urządzenia mobilnego": "2 godz",
+  "konfiguracja drukarki/urządzenia wielofunkcyjnego": "1 godz",
+  "konfiguracja dostępów dla nowego użytkownika": "30 min",
+  "dodanie nowego pracownika do grupy mailingowej": "30 min",
+  "dodanie użytkownika do listy w portalu dms": "30 min",
+  "przyznanie uprawnień lokalnego administratora na komputerze": "30 min",
+  "przyznanie dostępu do katalogu sieciowego": "30 min",
+  "modyfikacja licencji microsoft 365": "30 min",
+  "wniosek o przyznanie dodatkowych dostępów dla użytkownika": "30 min",
+  "archiwizacja kopii zapasowych komputerów": "8 godz",
+  "prace porządkowe w glpi": "4 godz",
+  "optymalizacja wykorzystania licencji": "4 godz",
+  "porządkowanie nieużywanych kont domenowych": "4 godz",
+  "porządkowanie licencji microsoft 365": "2 godz",
+  "porządkowanie licencji power apps i powerbi": "2 godz",
+  "zarządzanie aplikacjami w portalu firmy": "8 godz",
+  "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
     // Dodaj kolejne mapowania, jeśli potrzeba
   };
 
@@ -1120,7 +1120,4 @@ dropdownRow.appendChild(presetDropdown);
     insertOrUpdateSummary
   };
 
-})();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
 })();
