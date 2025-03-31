@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      2.9
+// @version      3.0
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -175,7 +175,7 @@ presetDropdown.innerHTML = `
             <option value="Inwentaryzacja urządzenia">Inwentaryzacja urządzenia</option>
             <option value="Instalacja systemu operacyjnego przeznaczonego dla korporacji">Instalacja systemu operacyjnego przeznaczonego dla korporacji</option>
             <option value="Awaryjna konfiguracja komputera dla pracownika">Awaryjna konfiguracja komputera dla pracownika</option>
-            <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
+            <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Awaryjna konfiguracja komputera dla wielu użytkowników</option>
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
             <option value="Konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
             <option value="Przygotowanie komputera narzędziowego na obiekt">Przygotowanie komputera narzędziowego na obiekt</option>
@@ -414,7 +414,7 @@ dropdownRow.appendChild(presetDropdown);
             <option value="Inwentaryzacja urządzenia">Inwentaryzacja urządzenia</option>
             <option value="Instalacja systemu operacyjnego przeznaczonego dla korporacji">Instalacja systemu operacyjnego przeznaczonego dla korporacji</option>
             <option value="Awaryjna konfiguracja komputera dla pracownika">Awaryjna konfiguracja komputera dla pracownika</option>
-            <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
+            <option value="Awaryjna konfiguracja komputera dla wielu użytkowników">Awaryjna konfiguracja komputera dla wielu użytkowników</option>
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
             <option value="Konfiguracja komputera dla wielu użytkowników">Konfiguracja komputera dla wielu użytkowników</option>
             <option value="Przygotowanie komputera narzędziowego na obiekt">Przygotowanie komputera narzędziowego na obiekt</option>
@@ -959,7 +959,8 @@ dropdownRow.appendChild(presetDropdown);
   function checkTitleCondition() {
     const titleLower = getCurrentTicketTitle().toLowerCase();
     if (titleLower.indexOf("rozwiązanie") !== -1) return true;
-    const specificTitles = [
+    /* Tytuły zgłoszeń, które z automatu powinny być zaliczane do potencjalnie dodatkowych */
+    /* const specificTitles = [
       "konfiguracja komputera dla pracownika",
       "instalacja dodatkowego oprogramowania",
       "rozwiązanie problemu z dostępem do platformy e-pracownik",
@@ -974,7 +975,7 @@ dropdownRow.appendChild(presetDropdown);
       "rozwiązanie problemu ze skanowaniem",
       "rozwiązanie problemu z zablokowanym komputerem",
     ];
-    return specificTitles.includes(titleLower);
+    return specificTitles.includes(titleLower); */
   }
 
   function checkTimeCondition() {
@@ -991,8 +992,8 @@ dropdownRow.appendChild(presetDropdown);
   function updateAdditionalLabel() {
   const ticketTitle = getCurrentTicketTitle().toLowerCase();
   let resultText = "";
-  // Jeśli tytuł zaczyna się od "awaryjne" – zawsze kwalifikuje się jako dodatkowe
-  if (ticketTitle.startsWith("awaryjne")) {
+  // Jeśli tytuł zaczyna się od "awaryjne/a" – zawsze kwalifikuje się jako dodatkowe
+  if (ticketTitle.startsWith("awaryjne") || ticketTitle.startsWith("awaryjna")) {
     resultText = "Kwalifikuje się jako dodatkowe";
   } else {
     const titleCond = checkTitleCondition();
