@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      3.0
+// @version      3.1
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -131,7 +131,7 @@ presetDropdown.innerHTML = `
   <optgroup label="NAJCZĘŚCIEJ UŻYWANE">
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
             <option value="Instalacja dodatkowego oprogramowania">Instalacja dodatkowego oprogramowania</option>
-            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
+            <option value="Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego</option>
             <option value="Rozwiązanie problemu z dostępem do platformy e-Pracownik">Rozwiązanie problemu z dostępem do platformy e-Pracownik</option>
             <option value="Rozwiązanie problemu z logowaniem do konta domenowego">Rozwiązanie problemu z logowaniem do konta domenowego</option>
             <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
@@ -159,13 +159,13 @@ presetDropdown.innerHTML = `
             <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
             <option value="Rozwiązanie problemu z drukowaniem">Rozwiązanie problemu z drukowaniem</option>
             <option value="Rozwiązanie problemu ze skanowaniem">Rozwiązanie problemu ze skanowaniem</option>
+            <option value="Rozwiązanie problemu z urządzeniem wielofunkcyjnym">Rozwiązanie problemu z urządzeniem wielofunkcyjnym</option>
             <option value="Rozwiązanie problemu z zablokowanym komputerem">Rozwiązanie problemu z zablokowanym komputerem</option>
           </optgroup>
           <optgroup label="CZYNNOŚCI ADMINISTRACYJNE">
             <option value="Reset konfiguracji MFA">Reset konfiguracji MFA</option>
             <option value="Przypisanie licencji AutoCAD na innego użytkownika">Przypisanie licencji AutoCAD na innego użytkownika</option>
             <option value="Odzyskanie dostępu do konta w domenie ENGIE">Odzyskanie dostępu do konta w domenie ENGIE</option>
-            <option value="Odblokowanie i administracyjna zmiana hasła domenowego użytkownika">Odblokowanie i administracyjna zmiana hasła domenowego użytkownika</option>
             <option value="Zablokowanie konta domenowego użytkownika">Zablokowanie konta domenowego użytkownika</option>
             <option value="Zabezpieczenie danych oraz usunięcie konta domenowego">Zabezpieczenie danych oraz usunięcie konta domenowego</option>
             <option value="Zabezpieczenie danych z konta domenowego">Zabezpieczenie danych z konta domenowego</option>
@@ -183,8 +183,8 @@ presetDropdown.innerHTML = `
             <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
             <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
             <option value="Przygotowanie urządzenia mobilnego">Przygotowanie urządzenia mobilnego</option>
-            <option value="Konfiguracja drukarki/urządzenia wielofunkcyjnego">Konfiguracja drukarki/urządzenia wielofunkcyjnego</option>
-            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
+            <option value="Konfiguracja urządzenia wielofunkcyjnego">Konfiguracja urządzenia wielofunkcyjnego</option>
+            <option value="Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego</option>
           </optgroup>
           <optgroup label="DOSTĘPY">
             <option value="Konfiguracja dostępów dla nowego użytkownika">Konfiguracja dostępów dla nowego użytkownika</option>
@@ -370,7 +370,7 @@ dropdownRow.appendChild(presetDropdown);
       <optgroup label="NAJCZĘŚCIEJ UŻYWANE">
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
             <option value="Instalacja dodatkowego oprogramowania">Instalacja dodatkowego oprogramowania</option>
-            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
+            <option value="Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego</option>
             <option value="Rozwiązanie problemu z dostępem do platformy e-Pracownik">Rozwiązanie problemu z dostępem do platformy e-Pracownik</option>
             <option value="Rozwiązanie problemu z logowaniem do konta domenowego">Rozwiązanie problemu z logowaniem do konta domenowego</option>
             <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
@@ -398,13 +398,13 @@ dropdownRow.appendChild(presetDropdown);
             <option value="Rozwiązanie problemu z synchronizacją OneDrive">Rozwiązanie problemu z synchronizacją OneDrive</option>
             <option value="Rozwiązanie problemu z drukowaniem">Rozwiązanie problemu z drukowaniem</option>
             <option value="Rozwiązanie problemu ze skanowaniem">Rozwiązanie problemu ze skanowaniem</option>
+            <option value="Rozwiązanie problemu z urządzeniem wielofunkcyjnym">Rozwiązanie problemu z urządzeniem wielofunkcyjnym</option>
             <option value="Rozwiązanie problemu z zablokowanym komputerem">Rozwiązanie problemu z zablokowanym komputerem</option>
           </optgroup>
           <optgroup label="CZYNNOŚCI ADMINISTRACYJNE">
             <option value="Reset konfiguracji MFA">Reset konfiguracji MFA</option>
             <option value="Przypisanie licencji AutoCAD na innego użytkownika">Przypisanie licencji AutoCAD na innego użytkownika</option>
             <option value="Odzyskanie dostępu do konta w domenie ENGIE">Odzyskanie dostępu do konta w domenie ENGIE</option>
-            <option value="Odblokowanie i administracyjna zmiana hasła domenowego użytkownika">Odblokowanie i administracyjna zmiana hasła domenowego użytkownika</option>
             <option value="Zablokowanie konta domenowego użytkownika">Zablokowanie konta domenowego użytkownika</option>
             <option value="Zabezpieczenie danych oraz usunięcie konta domenowego">Zabezpieczenie danych oraz usunięcie konta domenowego</option>
             <option value="Zabezpieczenie danych z konta domenowego">Zabezpieczenie danych z konta domenowego</option>
@@ -422,8 +422,8 @@ dropdownRow.appendChild(presetDropdown);
             <option value="Zabezpieczenie danych oraz odłączenie komputera z domeny">Zabezpieczenie danych oraz odłączenie komputera z domeny</option>
             <option value="Oczyszczenie urządzenia z danych">Oczyszczenie urządzenia z danych</option>
             <option value="Przygotowanie urządzenia mobilnego">Przygotowanie urządzenia mobilnego</option>
-            <option value="Konfiguracja drukarki/urządzenia wielofunkcyjnego">Konfiguracja drukarki/urządzenia wielofunkcyjnego</option>
-            <option value="Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego</option>
+            <option value="Konfiguracja urządzenia wielofunkcyjnego">Konfiguracja urządzenia wielofunkcyjnego</option>
+            <option value="Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego">Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego</option>
           </optgroup>
           <optgroup label="DOSTĘPY">
             <option value="Konfiguracja dostępów dla nowego użytkownika">Konfiguracja dostępów dla nowego użytkownika</option>
@@ -839,7 +839,7 @@ dropdownRow.appendChild(presetDropdown);
     const minutes = totalMinutes % 60;
     let result = "";
     if (hours > 0) result += hours + " godz. ";
-    result += minutes + " min.";
+    result += minutes + " min";
     return result;
   }
 
@@ -894,60 +894,60 @@ dropdownRow.appendChild(presetDropdown);
   // Mapa sugerowanego czasu – klucze muszą być zapisane małymi literami
   const titleSuggestedTimes = {
     "konfiguracja komputera dla pracownika": "2 godz",
-  "instalacja dodatkowego oprogramowania": "30 min",
-  "instalacja sterowników i oprogramowania do drukarki/urządzenia wielofunkcyjnego": "30 min",
-  "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
-  "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
-  "rozwiązanie problemu z synchronizacją onedrive": "30 min",
-  "zabezpieczenie danych oraz odłączenie komputera z domeny": "3 godz",
-  "oczyszczenie urządzenia z danych": "2 godz",
-  "konfiguracja dostępu do współdzielonej skrzynki e-mail": "30 min",
-  "wsparcie w procesie zmiany hasła w usłudze wiPass": "30 min",
-  "pomoc przy konfiguracji podpisu cyfrowego": "30 min",
-  "pomoc przy konfiguracji okta verify": "30 min",
-  "przygotowanie stanowiska pracy": "30 min",
-  "konfiguracja połączenia vpn na komputerze": "30 min",
-  "asysta podczas instalacji oprogramowania przez osoby trzecie": "30 min",
-  "rozwiązanie problemu z dostępem do platformy sezame": "30 min",
-  "rozwiązanie problemu z dostępem do sieci firmowej": "30 min",
-  "rozwiązanie problemu z logowaniem do microsoft 365": "30 min",
-  "rozwiązanie problemu z logowaniem do systemu bankowego": "30 min",
-  "rozwiązanie problemu zdalnego dostępu do komputera": "30 min",
-  "rozwiązanie problemu z drukowaniem": "30 min",
-  "rozwiązanie problemu ze skanowaniem": "30 min",
-  "rozwiązanie problemu z zablokowanym komputerem": "1 godz",
-  "reset konfiguracji mfa": "30 min",
-  "przypisanie licencji autocad na innego użytkownika": "30 min",
-  "odzyskanie dostępu do konta w domenie engie": "30 min",
-  "odblokowanie i administracyjna zmiana hasła domenowego użytkownika": "30 min",
-  "zablokowanie konta domenowego użytkownika": "30 min",
-  "zabezpieczenie danych oraz usunięcie konta domenowego": "4 godz",
-  "zabezpieczenie danych z konta domenowego": "2 godz",
-  "usunięcie konta domenowego": "1 godz",
-  "inwentaryzacja urządzenia": "30 min",
-  "instalacja systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
-  "awaryjna konfiguracja komputera dla pracownika": "2 godz",
-  "awaryjna konfiguracja komputera dla wielu użytkowników": "2 godz",
-  "konfiguracja komputera dla wielu użytkowników": "2 godz",
-  "przygotowanie komputera narzędziowego na obiekt": "2 godz",
-  "uzupełnienie profilu użytkownika na komputerze": "30 min",
-  "przygotowanie urządzenia mobilnego": "2 godz",
-  "konfiguracja drukarki/urządzenia wielofunkcyjnego": "1 godz",
-  "konfiguracja dostępów dla nowego użytkownika": "30 min",
-  "dodanie nowego pracownika do grupy mailingowej": "30 min",
-  "dodanie użytkownika do listy w portalu dms": "30 min",
-  "przyznanie uprawnień lokalnego administratora na komputerze": "30 min",
-  "przyznanie dostępu do katalogu sieciowego": "30 min",
-  "modyfikacja licencji microsoft 365": "30 min",
-  "wniosek o przyznanie dodatkowych dostępów dla użytkownika": "30 min",
-  "archiwizacja kopii zapasowych komputerów": "8 godz",
-  "prace porządkowe w glpi": "4 godz",
-  "optymalizacja wykorzystania licencji": "4 godz",
-  "porządkowanie nieużywanych kont domenowych": "4 godz",
-  "porządkowanie licencji microsoft 365": "2 godz",
-  "porządkowanie licencji power apps i powerbi": "2 godz",
-  "zarządzanie aplikacjami w portalu firmy": "8 godz",
-  "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
+    "instalacja dodatkowego oprogramowania": "30 min",
+    "Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego": "30 min",
+    "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
+    "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
+    "rozwiązanie problemu z synchronizacją onedrive": "30 min",
+    "zabezpieczenie danych oraz odłączenie komputera z domeny": "3 godz",
+    "oczyszczenie urządzenia z danych": "2 godz",
+    "konfiguracja dostępu do współdzielonej skrzynki e-mail": "30 min",
+    "wsparcie w procesie zmiany hasła w usłudze wiPass": "30 min",
+    "pomoc przy konfiguracji podpisu cyfrowego": "30 min",
+    "pomoc przy konfiguracji okta verify": "30 min",
+    "przygotowanie stanowiska pracy": "30 min",
+    "konfiguracja połączenia vpn na komputerze": "30 min",
+    "asysta podczas instalacji oprogramowania przez osoby trzecie": "30 min",
+    "rozwiązanie problemu z dostępem do platformy sezame": "30 min",
+    "rozwiązanie problemu z dostępem do sieci firmowej": "30 min",
+    "rozwiązanie problemu z logowaniem do microsoft 365": "30 min",
+    "rozwiązanie problemu z logowaniem do systemu bankowego": "30 min",
+    "rozwiązanie problemu zdalnego dostępu do komputera": "30 min",
+    "rozwiązanie problemu z drukowaniem": "30 min",
+    "rozwiązanie problemu z urządzeniem wielofunkcyjnym": "30 min",
+    "rozwiązanie problemu ze skanowaniem": "30 min",
+    "rozwiązanie problemu z zablokowanym komputerem": "1 godz",
+    "reset konfiguracji mfa": "30 min",
+    "przypisanie licencji autocad na innego użytkownika": "30 min",
+    "odzyskanie dostępu do konta w domenie engie": "30 min",
+    "zablokowanie konta domenowego użytkownika": "30 min",
+    "zabezpieczenie danych oraz usunięcie konta domenowego": "4 godz",
+    "zabezpieczenie danych z konta domenowego": "2 godz",
+    "usunięcie konta domenowego": "1 godz",
+    "inwentaryzacja urządzenia": "30 min",
+    "instalacja systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
+    "awaryjna konfiguracja komputera dla pracownika": "2 godz",
+    "awaryjna konfiguracja komputera dla wielu użytkowników": "2 godz",
+    "konfiguracja komputera dla wielu użytkowników": "2 godz",
+    "przygotowanie komputera narzędziowego na obiekt": "2 godz",
+    "uzupełnienie profilu użytkownika na komputerze": "30 min",
+    "przygotowanie urządzenia mobilnego": "2 godz",
+    "konfiguracja urządzenia wielofunkcyjnego": "1 godz",
+    "konfiguracja dostępów dla nowego użytkownika": "30 min",
+    "dodanie nowego pracownika do grupy mailingowej": "30 min",
+    "dodanie użytkownika do listy w portalu dms": "30 min",
+    "przyznanie uprawnień lokalnego administratora na komputerze": "30 min",
+    "przyznanie dostępu do katalogu sieciowego": "30 min",
+    "modyfikacja licencji microsoft 365": "30 min",
+    "wniosek o przyznanie dodatkowych dostępów dla użytkownika": "30 min",
+    "archiwizacja kopii zapasowych komputerów": "8 godz",
+    "prace porządkowe w glpi": "4 godz",
+    "optymalizacja wykorzystania licencji": "4 godz",
+    "porządkowanie nieużywanych kont domenowych": "4 godz",
+    "porządkowanie licencji microsoft 365": "2 godz",
+    "porządkowanie licencji power apps i powerbi": "2 godz",
+    "zarządzanie aplikacjami w portalu firmy": "8 godz",
+    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
     // Dodaj kolejne mapowania, jeśli potrzeba
   };
 
@@ -959,23 +959,19 @@ dropdownRow.appendChild(presetDropdown);
   function checkTitleCondition() {
     const titleLower = getCurrentTicketTitle().toLowerCase();
     if (titleLower.indexOf("rozwiązanie") !== -1) return true;
-    /* Tytuły zgłoszeń, które z automatu powinny być zaliczane do potencjalnie dodatkowych */
-    /* const specificTitles = [
-      "konfiguracja komputera dla pracownika",
+    /* Tytuły zgłoszeń, które powinny być zaliczane do potencjalnie dodatkowych */
+    const specificTitles = [
       "instalacja dodatkowego oprogramowania",
-      "rozwiązanie problemu z dostępem do platformy e-pracownik",
-      "rozwiązanie problemu z logowaniem do konta domenowego",
-      "rozwiązanie problemu z synchronizacją onedrive",
-      "rozwiązanie problemu z dostępem do platformy sezame",
-      "rozwiązanie problemu z dostępem do sieci firmowej",
-      "rozwiązanie problemu z logowaniem do microsoft 365",
-      "rozwiązanie problemu z logowaniem do systemu bankowego",
-      "rozwiązanie problemu zdalnego dostępu do komputera",
-      "rozwiązanie problemu z drukowaniem",
-      "rozwiązanie problemu ze skanowaniem",
-      "rozwiązanie problemu z zablokowanym komputerem",
+      "instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego",
+      "konfiguracja dostępu do współdzielonej skrzynki e-mail",
+      "wsparcie w procesie zmiany hasła w usłudze wipass",
+      "pomoc przy konfiguracji podpisu cyfrowego",
+      "pomoc przy konfiguracji okta verify",
+      "odzyskanie dostępu do konta w domenie ENGIE",
+      "uzupełnienie profilu użytkownika na komputerze",
+      "przyznanie uprawnień lokalnego administratora na komputerze",
     ];
-    return specificTitles.includes(titleLower); */
+    return specificTitles.includes(titleLower);
   }
 
   function checkTimeCondition() {
@@ -1000,7 +996,7 @@ dropdownRow.appendChild(presetDropdown);
     const timeCond = checkTimeCondition();
     if (titleCond && timeCond) {
       resultText = "Kwalifikuje się jako dodatkowe";
-    } else if (titleCond || timeCond) {
+    } else if (titleCond) {
       resultText = "Potencjalnie dodatkowe";
     }
   }
@@ -1122,3 +1118,250 @@ dropdownRow.appendChild(presetDropdown);
   };
 
 })();
+
+
+// ================================================
+// FUNKCJE DO TWORZENIA POWIĄZANEGO ZGŁOSZENIA (DEBUGOWANE)
+// ================================================
+(function() {
+  'use strict';
+
+// Log helper function
+  function log(msg) {
+    console.log("[RelatedTicketScript] " + msg);
+  }
+
+  // Pobiera numer ID zgłoszenia z tytułu, np. "[HLP #0003500]" -> "3500"
+  function getCurrentTicketID() {
+    const titleElem = document.querySelector('.navigationheader-title');
+    if (!titleElem) return null;
+    const text = titleElem.textContent;
+    const match = text.match(/\[HLP\s+#0*(\d+)\]/i);
+    log("Parsed ticket ID from title: " + (match ? match[1] : "null"));
+    return match ? match[1] : null;
+  }
+
+  // Funkcja zmieniająca wybór pierwszego dropdownu (_link[link]) na "Podrzędne do" (wartość "3")
+  function changeRelationTypeToPodrzedne() {
+    log("Zmiana pierwszego dropdownu (_link[link]) na 'Podrzędne do'.");
+    const selectRel = document.querySelector('select[name="_link[link]"]');
+    if (selectRel) {
+      $(selectRel).val("3").trigger("change");
+      log("Pierwszy dropdown ustawiony na 'Podrzędne do'.");
+    } else {
+      log("ERROR: Nie znaleziono pierwszego dropdownu (_link[link]).");
+    }
+  }
+
+  // Dodaje przycisk "Utwórz podrzędne zgłoszenie" do akordeonu "Powiązane zgłoszenia"
+  function addCreateRelatedTicketButton() {
+    log("Oczekiwanie na pojawienie się akordeonu #linked_tickets w widoku zgłoszenia.");
+    const interval = setInterval(() => {
+      const linkedTicketsAccordion = document.getElementById('linked_tickets');
+      if (linkedTicketsAccordion) {
+        log("Akordeon #linked_tickets znaleziony.");
+        clearInterval(interval);
+        const accordionBody = linkedTicketsAccordion.querySelector('.accordion-body');
+        if (!accordionBody) {
+          log("ERROR: Nie znaleziono ciała akordeonu 'Powiązane zgłoszenia'.");
+          return;
+        }
+        // Jeśli przycisk już istnieje, nie dodajemy go ponownie.
+        if (document.getElementById('createRelatedTicketButton')) {
+          log("Przycisk 'Utwórz podrzędne zgłoszenie' już istnieje.");
+          return;
+        }
+
+        const btn = document.createElement('button');
+        btn.id = 'createRelatedTicketButton';
+        btn.textContent = "Utwórz podrzędne zgłoszenie";
+        btn.className = "btn btn-sm btn-primary";
+        btn.style.marginBottom = "10px";
+        btn.addEventListener('click', function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const currentTicketID = urlParams.get('id');
+          log("Przycisk kliknięty. ID zgłoszenia: " + currentTicketID);
+          if (!currentTicketID) {
+            log("ERROR: Nie znaleziono ID zgłoszenia.");
+            return;
+          }
+          // Zapisujemy ID do localStorage.
+          localStorage.setItem('related_ticket', currentTicketID);
+          log("ID zgłoszenia zapisane w localStorage.");
+
+          // Otwieramy stronę tworzenia zgłoszenia w nowej zakładce.
+          window.open("/front/ticket.form.php?new=1", "_blank");
+
+          // Na oryginalnej stronie zastępujemy zawartość komunikatem, prosząc użytkownika o ponowne załadowanie strony.
+          document.body.innerHTML = `
+            <div style="text-align: center; padding: 30px;">
+              <h2>Strona zgłoszenia została zaktualizowana.</h2>
+              <p>Formularz tworzenia zgłoszenia został otwarty w nowej karcie. Ze względu na ograniczenia techniczne skryptu odśwież tę stronę, by ponownie wyświetlić wybrane zgłoszenie. </p>
+              <button id="reloadButton" style="padding: 10px 20px; font-size: 16px;">Odśwież stronę</button>
+            </div>
+          `;
+          // Opcjonalnie – dodajemy obsługę przycisku odświeżania.
+          document.getElementById('reloadButton').addEventListener('click', function() {
+            window.location.href = window.location.href;
+          });
+
+          log("Zaktualizowano zawartość strony. Użytkownik powinien kliknąć przycisk 'Odśwież stronę'.");
+        });
+        accordionBody.insertAdjacentElement('afterbegin', btn);
+        log("Przycisk 'Utwórz podrzędne zgłoszenie' dodany do akordeonu.");
+      } else {
+        log("Czekam na akordeon #linked_tickets...");
+      }
+    }, 1000);
+  }
+
+  // Funkcja automatycznego dodawania powiązanego zgłoszenia na stronie tworzenia zgłoszenia.
+  function autoAddRelatedTicket() {
+    log("autoAddRelatedTicket() uruchomione.");
+    const urlParams = new URLSearchParams(window.location.search);
+    // Jeśli parametr "id" istnieje, to nie jest to strona tworzenia zgłoszenia.
+    if (urlParams.has('id')) {
+      log("Strona zawiera parametr 'id'. To nie jest strona tworzenia zgłoszenia.");
+      return;
+    }
+    const relatedTicketID = localStorage.getItem('related_ticket');
+    log("Odczytano ID powiązanego zgłoszenia: " + relatedTicketID);
+    if (!relatedTicketID) {
+      log("ERROR: Brak zapisanego ID zgłoszenia.");
+      return;
+    }
+    // Usuwamy zapisane ID, aby proces wykonał się tylko raz.
+    localStorage.removeItem('related_ticket');
+    log("Usunięto zapisane ID zgłoszenia z localStorage.");
+
+    // Czekamy, aż dynamicznie ładowany kontener #linked_tickets będzie dostępny.
+    const waitForContainer = setInterval(() => {
+      log("Sprawdzam, czy kontener #linked_tickets jest dostępny...");
+      const linkedTicketsContainer = document.getElementById('linked_tickets');
+      if (linkedTicketsContainer) {
+        log("Kontener #linked_tickets znaleziony.");
+        clearInterval(waitForContainer);
+
+        // Zmieniamy pierwszy dropdown na "Podrzędne do".
+        changeRelationTypeToPodrzedne();
+
+        // Następnie czekamy na przycisk "Dodaj" w kontenerze.
+        const waitForAddButton = setInterval(() => {
+          log("Sprawdzam, czy przycisk 'Dodaj' jest dostępny...");
+          const addButton = Array.from(linkedTicketsContainer.querySelectorAll('button'))
+                              .find(btn => btn.textContent.trim() === "Dodaj");
+          if (addButton) {
+            log("Przycisk 'Dodaj' znaleziony.");
+            clearInterval(waitForAddButton);
+            addButton.click();
+            log("Kliknięto przycisk 'Dodaj'.");
+            // Po krótkim opóźnieniu otwieramy dropdown wyboru zgłoszenia.
+            setTimeout(() => {
+              log("Wywoływanie funkcji openTicketSelectionDropdown() dla ticketID: " + relatedTicketID);
+              openTicketSelectionDropdown(relatedTicketID);
+            }, 500);
+          } else {
+            log("Przycisk 'Dodaj' nie jest jeszcze dostępny. Czekam...");
+          }
+        }, 1000);
+      } else {
+        log("Czekam na kontener #linked_tickets...");
+      }
+    }, 1000);
+  }
+
+  // -------------------------------------------------------------------------
+  // Funkcje pomocnicze do obsługi Select2 w drugim dropdownie.
+  // -------------------------------------------------------------------------
+
+  // Oczekuje na pojawienie się pola wyszukiwania w ostatnio otwartym dropdownie Select2.
+  function waitForDropdownSearchInput(callback, retries = 10) {
+    log("Sprawdzam pole wyszukiwania w dropdownie Select2, pozostało prób: " + retries);
+    const searchInputs = document.querySelectorAll('.select2-dropdown .select2-search__field');
+    if (searchInputs.length > 0) {
+      log("Znaleziono " + searchInputs.length + " pola. Używam ostatniego.");
+      callback(searchInputs[searchInputs.length - 1]);
+    } else {
+      if (retries <= 0) {
+        log("ERROR: Nie znaleziono pola wyszukiwania.");
+        return;
+      }
+      setTimeout(() => waitForDropdownSearchInput(callback, retries - 1), 500);
+    }
+  }
+
+  // Oczekuje na pojawienie się wyniku wyszukiwania.
+  function waitForSelectResult(callback, retries = 10) {
+    log("Sprawdzam wyniki wyszukiwania, pozostało prób: " + retries);
+    const result = document.querySelector('.select2-results__option[aria-selected]');
+    if (result) {
+      log("Wynik znaleziony: " + result.textContent);
+      callback(result);
+    } else {
+      if (retries <= 0) {
+        log("ERROR: Nie znaleziono wyników wyszukiwania.");
+        return;
+      }
+      setTimeout(() => waitForSelectResult(callback, retries - 1), 500);
+    }
+  }
+
+  // Funkcja symulująca pełny przebieg zdarzeń myszy (mousedown, mouseup, click) na wyniku.
+  function simulateClickOnResult(result) {
+    log("Symulacja zdarzeń myszy dla wyniku.");
+    var mousedownEvent = new MouseEvent('mousedown', { view: window, bubbles: true, cancelable: true });
+    result.dispatchEvent(mousedownEvent);
+    log("Dispatched mousedown.");
+    var mouseupEvent = new MouseEvent('mouseup', { view: window, bubbles: true, cancelable: true });
+    result.dispatchEvent(mouseupEvent);
+    log("Dispatched mouseup.");
+    var clickEvent = new MouseEvent('click', { view: window, bubbles: true, cancelable: true });
+    result.dispatchEvent(clickEvent);
+    log("Dispatched click.");
+  }
+
+  // Funkcja otwierająca Select2 dla pola wyboru zgłoszenia (_link[tickets_id_2]) i wpisująca ID zgłoszenia.
+  function openTicketSelectionDropdown(ticketID) {
+    log("Otwarcie dropdownu (_link[tickets_id_2]) dla zgłoszenia.");
+    const selectEl = document.querySelector('select[name="_link[tickets_id_2]"]');
+    if (!selectEl) {
+      log("ERROR: Nie znaleziono elementu select (_link[tickets_id_2]).");
+      return;
+    }
+    log("Element select (_link[tickets_id_2]) znaleziony: " + (selectEl.id || 'brak id'));
+    $(selectEl).select2("open");
+    log("Wywołano otwarcie Select2.");
+    waitForDropdownSearchInput(function(searchInput) {
+      log("Pole wyszukiwania znalezione. Wpisuję ticketID: " + ticketID);
+      searchInput.value = ticketID;
+      const evt = new Event('input', { bubbles: true });
+      searchInput.dispatchEvent(evt);
+      log("Wysłano zdarzenie input.");
+      waitForSelectResult(function(result) {
+        log("Przygotowanie do symulacji kliknięcia na wynik: " + result.textContent);
+        simulateClickOnResult(result);
+        log("Wybrano wynik.");
+      });
+    });
+  }
+
+  // Inicjacja w zależności od strony.
+  window.addEventListener('load', function() {
+    log("Window load event. location.search: " + window.location.search);
+    // Jeśli mamy .navigationheader-title, to jesteśmy na stronie zgłoszenia.
+    if (document.querySelector('.navigationheader-title')) {
+      log("Wykryto widok zgłoszenia. Uruchamiam addCreateRelatedTicketButton().");
+      addCreateRelatedTicketButton();
+    }
+    // Jeśli URL zawiera parametr new lub mamy formularz tworzenia (np. 'itil-form'),
+    // oraz brak .navigationheader-title – to jesteśmy na stronie tworzenia zgłoszenia.
+    const params = new URLSearchParams(window.location.search);
+    if ((document.getElementById('itil-form') || params.has('new')) && !document.querySelector('.navigationheader-title')) {
+      log("Wykryto stronę tworzenia zgłoszenia. Uruchamiam autoAddRelatedTicket().");
+      autoAddRelatedTicket();
+    } else {
+      log("Strona tworzenia zgłoszenia nie została wykryta.");
+    }
+  });
+})();
+
