@@ -164,6 +164,7 @@ presetDropdown.innerHTML = `
           </optgroup>
           <optgroup label="CZYNNOŚCI ADMINISTRACYJNE">
             <option value="Reset konfiguracji MFA">Reset konfiguracji MFA</option>
+            <option value="Odblokowanie komputera kluczem Bitlocker">Odblokowanie komputera kluczem Bitlocker</option>
             <option value="Przypisanie licencji AutoCAD na innego użytkownika">Przypisanie licencji AutoCAD na innego użytkownika</option>
             <option value="Odzyskanie dostępu do konta w domenie ENGIE">Odzyskanie dostępu do konta w domenie ENGIE</option>
             <option value="Zablokowanie konta domenowego użytkownika">Zablokowanie konta domenowego użytkownika</option>
@@ -403,6 +404,7 @@ dropdownRow.appendChild(presetDropdown);
           </optgroup>
           <optgroup label="CZYNNOŚCI ADMINISTRACYJNE">
             <option value="Reset konfiguracji MFA">Reset konfiguracji MFA</option>
+            <option value="Odblokowanie komputera kluczem Bitlocker">Odblokowanie komputera kluczem Bitlocker</option>
             <option value="Przypisanie licencji AutoCAD na innego użytkownika">Przypisanie licencji AutoCAD na innego użytkownika</option>
             <option value="Odzyskanie dostępu do konta w domenie ENGIE">Odzyskanie dostępu do konta w domenie ENGIE</option>
             <option value="Zablokowanie konta domenowego użytkownika">Zablokowanie konta domenowego użytkownika</option>
@@ -947,7 +949,8 @@ dropdownRow.appendChild(presetDropdown);
     "porządkowanie licencji microsoft 365": "2 godz",
     "porządkowanie licencji power apps i powerbi": "2 godz",
     "zarządzanie aplikacjami w portalu firmy": "8 godz",
-    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz"
+    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
+    "odblokowanie komputera kluczem Bitlocker": "30 min"
     // Dodaj kolejne mapowania, jeśli potrzeba
   };
 
