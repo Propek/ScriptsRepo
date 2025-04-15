@@ -3,7 +3,7 @@
 // @namespace    Violentmonkey Scripts
 // @match        https://pomoc.engie-polska.pl/*
 // @grant        none
-// @version      3.1
+// @version      3.11
 // @author       Adrian, Hubert
 // @description  GLPI QOL scripts pack
 // @updateURL    https://github.com/Propek/ScriptsRepo/raw/refs/heads/main/TicketsExtended.js
@@ -1366,5 +1366,89 @@ dropdownRow.appendChild(presetDropdown);
       log("Strona tworzenia zgłoszenia nie została wykryta.");
     }
   });
+
+  // skróty kolejek
+  (function() {
+  'use strict';
+
+  const breadcrumbHtml = `
+    <div class="breadcrumb breadcrumb-alternate pe-1 pe-sm-3">
+      <ul class="nav navbar-nav border-start border-left ps-1 ps-sm-2 flex-row">
+        <li class="nav-item">
+          <a
+            href="/front/savedsearch.php?action=load&id=10"
+            class="btn btn-icon btn-sm btn-outline-secondary me-1 pe-2"
+          >
+            <i class="ti ti-eye-check" title="Do realizacji"></i>
+            <span class="d-none d-xxl-block"> Do realizacji </span>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            href="/front/savedsearch.php?action=load&id=5"
+            class="btn btn-icon btn-sm btn-outline-secondary me-1 pe-2"
+          >
+            <i class="ti ti-eye-check" title="Moje aktywne"></i>
+            <span class="d-none d-xxl-block"> Moje aktywne </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            href="/front/savedsearch.php?action=load&id=6"
+            class="btn btn-icon btn-sm btn-outline-secondary me-1 pe-2"
+          >
+            <i class="ti ti-eye-check" title="Moje zamknięte"></i>
+            <span class="d-none d-xxl-block"> Moje zamknięte </span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  `;
+
+  let breadcrumbAdded = false;
+  const targetSelector = 'main[role="main"][id="page"].legacy';
+
+  const observer = new MutationObserver((mutationsList, observer) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList' && !breadcrumbAdded) {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === 1 && node.matches(targetSelector)) {
+            node.insertAdjacentHTML('afterbegin', breadcrumbHtml);
+            console.log('Element breadcrumb został dodany przy użyciu MutationObserver.');
+            breadcrumbAdded = true;
+            observer.disconnect();
+            return;
+          }
+        });
+      }
+      // Sprawdź, czy targetSelector już istnieje na stronie przy mutacjach
+      if (!breadcrumbAdded && document.querySelector(targetSelector)) {
+        const mainElement = document.querySelector(targetSelector);
+        mainElement.insertAdjacentHTML('afterbegin', breadcrumbHtml);
+        console.log('Element breadcrumb został dodany (element był już w DOM).');
+        breadcrumbAdded = true;
+        observer.disconnect();
+      }
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  setTimeout(() => {
+    if (!breadcrumbAdded) {
+      const mainElement = document.querySelector(targetSelector);
+      if (mainElement) {
+        mainElement.insertAdjacentHTML('afterbegin', breadcrumbHtml);
+        breadcrumbAdded = true;
+        observer.disconnect();
+        console.log('Element breadcrumb został dodany przez timeout.');
+      } else {
+        console.log('Element <main> nie został znaleziony w czasie (timeout).');
+      }
+    }
+  }, 5000); // Sprawdzaj maksymalnie przez 5 sekund
+
+})();
 })();
 
