@@ -14,119 +14,143 @@
  * I. Funkcje formatowania (ID zgłoszenia, tytułów, numerów telefonów,
  *    opcji wyboru godzin) – oraz ich dynamiczna aktualizacja.
  ************************************************/
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   /************************************************
    * Wyświetlanie i formatowanie pełnego ID zgłoszenia
    ************************************************/
   function formatTicketTitleOnList() {
     const ticketLinks = document.querySelectorAll('a[id^="Ticket"]');
-    ticketLinks.forEach(link => {
+    ticketLinks.forEach((link) => {
       const ticketID = link.id.substring(6);
-      const trElement = link.closest('tr');
+      const trElement = link.closest("tr");
       if (trElement) {
-        const spanElement = trElement.querySelector('span.text-nowrap');
-        if (spanElement && spanElement.textContent.replace(/\s/g, '') === ticketID) {
-          const formattedID = `HLP #${ticketID.padStart(7, '0')}`;
+        const spanElement = trElement.querySelector("span.text-nowrap");
+        if (
+          spanElement &&
+          spanElement.textContent.replace(/\s/g, "") === ticketID
+        ) {
+          const formattedID = `HLP #${ticketID.padStart(7, "0")}`;
           spanElement.textContent = formattedID;
         }
       }
     });
   }
 
- /************************************************
-  * Przyciski do kopiowania ID zgłoszenia i zmiany tytułu zgłoszenia
-  ************************************************/
-function formatTicketTitle() {
-  const ticketTitles = document.querySelectorAll('.navigationheader-title');
-  ticketTitles.forEach(ticket => {
-    const titleText = ticket.textContent.trim();
-    const idMatch = titleText.match(/\((\d+)\)$/);
-    if (idMatch) {
-      const ticketID = idMatch[1];
-      const formattedID = `[HLP #${ticketID.padStart(7, '0')}]`;
-      const newTitle = titleText.replace(`(${ticketID})`, ` ${formattedID}`);
-      ticket.innerHTML = "";
+  /************************************************
+   * Przyciski do kopiowania ID zgłoszenia i zmiany tytułu zgłoszenia
+   ************************************************/
+  function formatTicketTitle() {
+    const ticketTitles = document.querySelectorAll(".navigationheader-title");
+    ticketTitles.forEach((ticket) => {
+      const titleText = ticket.textContent.trim();
+      const idMatch = titleText.match(/\((\d+)\)$/);
+      if (idMatch) {
+        const ticketID = idMatch[1];
+        const formattedID = `[HLP #${ticketID.padStart(7, "0")}]`;
+        const newTitle = titleText.replace(`(${ticketID})`, ` ${formattedID}`);
+        ticket.innerHTML = "";
 
-      // Główny DIV
-      // Górny wiersz: Tytuł z przyciskami
-      // Dolny dodatkowy DIV: Ukryty poza trybem edycji, zawiera pole edycji tytułu oraz listę tytułów
-      const mainContainer = document.createElement('div');
-      mainContainer.classList.add('d-flex', 'flex-column', 'gap-2');
-      ticket.appendChild(mainContainer);
+        // Główny DIV
+        // Górny wiersz: Tytuł z przyciskami
+        // Dolny dodatkowy DIV: Ukryty poza trybem edycji, zawiera pole edycji tytułu oraz listę tytułów
+        const mainContainer = document.createElement("div");
+        mainContainer.classList.add("d-flex", "flex-column", "gap-2");
+        ticket.appendChild(mainContainer);
 
-      // Górny wiersz
-      const topRow = document.createElement('div');
-      topRow.classList.add('d-flex', 'align-items-center', 'gap-2');
-      mainContainer.appendChild(topRow);
+        // Górny wiersz
+        const topRow = document.createElement("div");
+        topRow.classList.add("d-flex", "align-items-center", "gap-2");
+        mainContainer.appendChild(topRow);
 
-      // Tytuł zgłoszenia przed edycją
-      const titleSpan = document.createElement('span');
-      titleSpan.textContent = newTitle;
-      topRow.appendChild(titleSpan);
+        // Tytuł zgłoszenia przed edycją
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = newTitle;
+        topRow.appendChild(titleSpan);
 
-      // Przycisk do kopiowania ID zgłoszenia
-      const copyButton = document.createElement('button');
-      copyButton.classList.add('btn', 'btn-icon', 'btn-outline-secondary', 'btn-sm', 'px-2');
-      copyButton.type = 'button';
-      copyButton.innerHTML = '<i class="ti ti-clipboard me-1"></i>Kopiuj ID';
-      copyButton.addEventListener('click', () => {
-        const hlpFullIdMatch = newTitle.match(/\[(HLP #\d+)\]/);
-        if (hlpFullIdMatch) {
-          const hlpFullId = hlpFullIdMatch[1];
-          navigator.clipboard.writeText(hlpFullId)
-            .then(() => {
-              copyButton.textContent = "Skopiowano!";
-              setTimeout(() => {
-                copyButton.innerHTML = '<i class="ti ti-clipboard me-1"></i>Kopiuj ID';
-              }, 2000);
-            })
-            .catch(err => {
-              console.error('Wystąpił błąd przy próbie kopiowania ID: ', err);
-              copyButton.textContent = "Błąd!";
-              setTimeout(() => {
-                copyButton.innerHTML = '<i class="ti ti-clipboard me-1"></i>Kopiuj ID';
-              }, 2000);
-            });
-        }
-      });
-      topRow.appendChild(copyButton);
+        // Przycisk do kopiowania ID zgłoszenia
+        const copyButton = document.createElement("button");
+        copyButton.classList.add(
+          "btn",
+          "btn-icon",
+          "btn-outline-secondary",
+          "btn-sm",
+          "px-2"
+        );
+        copyButton.type = "button";
+        copyButton.innerHTML = '<i class="ti ti-clipboard me-1"></i>Kopiuj ID';
+        copyButton.addEventListener("click", () => {
+          const hlpFullIdMatch = newTitle.match(/\[(HLP #\d+)\]/);
+          if (hlpFullIdMatch) {
+            const hlpFullId = hlpFullIdMatch[1];
+            navigator.clipboard
+              .writeText(hlpFullId)
+              .then(() => {
+                copyButton.textContent = "Skopiowano!";
+                setTimeout(() => {
+                  copyButton.innerHTML =
+                    '<i class="ti ti-clipboard me-1"></i>Kopiuj ID';
+                }, 2000);
+              })
+              .catch((err) => {
+                console.error("Wystąpił błąd przy próbie kopiowania ID: ", err);
+                copyButton.textContent = "Błąd!";
+                setTimeout(() => {
+                  copyButton.innerHTML =
+                    '<i class="ti ti-clipboard me-1"></i>Kopiuj ID';
+                }, 2000);
+              });
+          }
+        });
+        topRow.appendChild(copyButton);
 
-      // Przycisk do zmiany tytułu zgłoszenia
-      const changeTitleButton = document.createElement('button');
-      changeTitleButton.classList.add('btn', 'btn-icon', 'btn-outline-secondary', 'btn-sm', 'px-2');
-      changeTitleButton.type = 'button';
-      changeTitleButton.innerHTML = '<i class="ti ti-edit me-1"></i>Zmień tytuł';
-      topRow.appendChild(changeTitleButton);
+        // Przycisk do zmiany tytułu zgłoszenia
+        const changeTitleButton = document.createElement("button");
+        changeTitleButton.classList.add(
+          "btn",
+          "btn-icon",
+          "btn-outline-secondary",
+          "btn-sm",
+          "px-2"
+        );
+        changeTitleButton.type = "button";
+        changeTitleButton.innerHTML =
+          '<i class="ti ti-edit me-1"></i>Zmień tytuł';
+        topRow.appendChild(changeTitleButton);
 
-      // ----- Dodatkowy DIV na dole w trybie edycji -----
-      // Domyślnie ukryty
-      const bottomContainer = document.createElement('div');
-      bottomContainer.classList.add('d-none', 'flex-column', 'gap-1');
-      mainContainer.appendChild(bottomContainer);
+        // ----- Dodatkowy DIV na dole w trybie edycji -----
+        // Domyślnie ukryty
+        const bottomContainer = document.createElement("div");
+        bottomContainer.classList.add("d-none", "flex-column", "gap-1");
+        mainContainer.appendChild(bottomContainer);
 
-      // Pierwszy wiersz: Pole do edycji tytułu zgłoszenia
-      const inputRow = document.createElement('div');
-      inputRow.classList.add('w-100');
-      bottomContainer.appendChild(inputRow);
+        // Pierwszy wiersz: Pole do edycji tytułu zgłoszenia
+        const inputRow = document.createElement("div");
+        inputRow.classList.add("w-100");
+        bottomContainer.appendChild(inputRow);
 
-      const editInput = document.createElement('input');
-      editInput.classList.add('form-control', 'form-control-sm', 'w-100');
-      editInput.placeholder = 'Wpisz nowy tytuł...';
-      // Ustawienie wysokości pola edycji
-      editInput.style.height = '2.0rem';
-      inputRow.appendChild(editInput);
+        const editInput = document.createElement("input");
+        editInput.classList.add("form-control", "form-control-sm", "w-100");
+        editInput.placeholder = "Wpisz nowy tytuł...";
+        // Ustawienie wysokości pola edycji
+        editInput.style.height = "2.0rem";
+        inputRow.appendChild(editInput);
 
-      // Drugi wiersz: Lista do wyboru tytułu zgłoszenia
-const dropdownRow = document.createElement('div');
-dropdownRow.classList.add('w-100');
-bottomContainer.appendChild(dropdownRow);
+        // Drugi wiersz: Lista do wyboru tytułu zgłoszenia
+        const dropdownRow = document.createElement("div");
+        dropdownRow.classList.add("w-100");
+        bottomContainer.appendChild(dropdownRow);
 
-const presetDropdown = document.createElement('select');
-presetDropdown.classList.add('form-select', 'form-select-sm', 'w-100', 'mt-1');
-presetDropdown.setAttribute('data-width', '100%');
-presetDropdown.innerHTML = `
+        const presetDropdown = document.createElement("select");
+        presetDropdown.classList.add(
+          "form-select",
+          "form-select-sm",
+          "w-100",
+          "mt-1"
+        );
+        presetDropdown.setAttribute("data-width", "100%");
+        presetDropdown.innerHTML = `
   <option value="">Wybierz tytuł zgłoszenia</option>
   <optgroup label="NAJCZĘŚCIEJ UŻYWANE">
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
@@ -208,165 +232,192 @@ presetDropdown.innerHTML = `
             <option value="Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji">Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji</option>
           </optgroup>
 `;
-dropdownRow.appendChild(presetDropdown);
+        dropdownRow.appendChild(presetDropdown);
 
-
-      // Dodany element datalist do podpowiedzi tytułów (utworzony po utworzeniu presetDropdown)
-      // Komentarz: iteracja po opcjach selecta z tytułami
-      const titleDatalist = document.createElement('datalist'); // Utworzenie datalistu
-      titleDatalist.id = 'presetTitlesDatalist';
-      Array.from(presetDropdown.options).forEach(option => {
-        if(option.value.trim() !== "") {
-          const dataOption = document.createElement('option');
-          dataOption.value = option.value;
-          titleDatalist.appendChild(dataOption);
-        }
-      });
-      document.body.appendChild(titleDatalist);
-      editInput.setAttribute('list', titleDatalist.id);
-
-      // Dodany listener do autouzupełniania przy naciśnięciu klawisza TAB
-      editInput.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Tab') {
-          // Pobierz wszystkie opcje z datalistu
-          const options = Array.from(titleDatalist.options).map(opt => opt.value);
-          const currentValue = editInput.value.trim();
-          // Znajdź pierwszą opcję, która zaczyna się od wpisanej wartości (ignorując wielkość liter)
-          const match = options.find(opt => opt.toLowerCase().startsWith(currentValue.toLowerCase()));
-          if (match) {
-            evt.preventDefault();
-            // Uzupełnij pole edycji o znaleziony tytuł
-            editInput.value = match;
+        // Dodany element datalist do podpowiedzi tytułów (utworzony po utworzeniu presetDropdown)
+        // Komentarz: iteracja po opcjach selecta z tytułami
+        const titleDatalist = document.createElement("datalist"); // Utworzenie datalistu
+        titleDatalist.id = "presetTitlesDatalist";
+        Array.from(presetDropdown.options).forEach((option) => {
+          if (option.value.trim() !== "") {
+            const dataOption = document.createElement("option");
+            dataOption.value = option.value;
+            titleDatalist.appendChild(dataOption);
           }
-        }
-      }, true); // Listener wykonywany w fazie przechwytywania
+        });
+        document.body.appendChild(titleDatalist);
+        editInput.setAttribute("list", titleDatalist.id);
 
-      // Aktualizacja tytułu po wybraniu z listy
-      presetDropdown.addEventListener('change', () => {
-        if (presetDropdown.value !== "") {
-          const newValue = presetDropdown.value.trim();
-          stopEditing(newValue);
-          saveTitleToGLPI(newValue);
-          // Resetuj wybrany element listy tytułów
-          presetDropdown.selectedIndex = 0;
-          if (typeof $ !== "undefined" && typeof $.fn.selectpicker === "function") {
-            $(presetDropdown).selectpicker('refresh');
-          }
-        }
-      });
-
-      // Zmienna z tytułem zgłoszenia bez ID
-      let currentTitleOnly = newTitle.replace(/\s*\[HLP #\d+\]/, '').trim();
-      const bracketPart = (newTitle.match(/\[HLP #[0-9]+\]/) || [])[0] || '';
-      let isEditingTitle = false;
-
-      // Przejście w tryb edycji
-      function startEditing() {
-        isEditingTitle = true;
-        titleSpan.style.display = 'none';
-        bottomContainer.classList.remove('d-none');
-        editInput.value = currentTitleOnly;
-        editInput.focus();
-        changeTitleButton.innerHTML = '<i class="ti ti-check me-1"></i>Zapisz zmiany';
-      }
-
-      // Wyjście z trybu edycji
-      function stopEditing(newTitleValue) {
-        isEditingTitle = false;
-        currentTitleOnly = newTitleValue;
-        const updatedFullTitle = `${currentTitleOnly} ${bracketPart}`;
-        titleSpan.textContent = updatedFullTitle;
-        titleSpan.style.display = 'inline';
-        bottomContainer.classList.add('d-none');
-        changeTitleButton.innerHTML = '<i class="ti ti-edit me-1"></i>Zmień tytuł';
-      }
-
-      // Automatyczna symulacja procesu zmiany tytułu zgłoszenia
-      function saveTitleToGLPI(newTitleValue) {
-        const dotsBtn = document.querySelector('.card-body:first-child .timeline-more-actions');
-        if (!dotsBtn) {
-          console.warn('Nie znaleziono przycisku menu z trzema kropkami!');
-          return;
-        }
-        dotsBtn.click();
-        setTimeout(() => {
-          const editLink = document.querySelector('.card-body:first-child .dropdown-item.edit-timeline-item');
-          if (!editLink) {
-            console.warn('Nie znaleziono opcji "Edytuj"!');
-            return;
-          }
-          editLink.click();
-          const checkInterval = setInterval(() => {
-            const nameInput = document.querySelector('.edit-content input[name="name"]');
-            if (nameInput) {
-              clearInterval(checkInterval);
-              nameInput.value = newTitleValue;
-              const saveBtn = document.querySelector('.edit-content button[name="update"]');
-              if (saveBtn) {
-                saveBtn.click();
+        // Dodany listener do autouzupełniania przy naciśnięciu klawisza TAB
+        editInput.addEventListener(
+          "keydown",
+          (evt) => {
+            if (evt.key === "Tab") {
+              // Pobierz wszystkie opcje z datalistu
+              const options = Array.from(titleDatalist.options).map(
+                (opt) => opt.value
+              );
+              const currentValue = editInput.value.trim();
+              // Znajdź pierwszą opcję, która zaczyna się od wpisanej wartości (ignorując wielkość liter)
+              const match = options.find((opt) =>
+                opt.toLowerCase().startsWith(currentValue.toLowerCase())
+              );
+              if (match) {
+                evt.preventDefault();
+                // Uzupełnij pole edycji o znaleziony tytuł
+                editInput.value = match;
               }
             }
-          }, 500);
-        }, 300);
+          },
+          true
+        ); // Listener wykonywany w fazie przechwytywania
+
+        // Aktualizacja tytułu po wybraniu z listy
+        presetDropdown.addEventListener("change", () => {
+          if (presetDropdown.value !== "") {
+            const newValue = presetDropdown.value.trim();
+            stopEditing(newValue);
+            saveTitleToGLPI(newValue);
+            // Resetuj wybrany element listy tytułów
+            presetDropdown.selectedIndex = 0;
+            if (
+              typeof $ !== "undefined" &&
+              typeof $.fn.selectpicker === "function"
+            ) {
+              $(presetDropdown).selectpicker("refresh");
+            }
+          }
+        });
+
+        // Zmienna z tytułem zgłoszenia bez ID
+        let currentTitleOnly = newTitle.replace(/\s*\[HLP #\d+\]/, "").trim();
+        const bracketPart = (newTitle.match(/\[HLP #[0-9]+\]/) || [])[0] || "";
+        let isEditingTitle = false;
+
+        // Przejście w tryb edycji
+        function startEditing() {
+          isEditingTitle = true;
+          titleSpan.style.display = "none";
+          bottomContainer.classList.remove("d-none");
+          editInput.value = currentTitleOnly;
+          editInput.focus();
+          changeTitleButton.innerHTML =
+            '<i class="ti ti-check me-1"></i>Zapisz zmiany';
+        }
+
+        // Wyjście z trybu edycji
+        function stopEditing(newTitleValue) {
+          isEditingTitle = false;
+          currentTitleOnly = newTitleValue;
+          const updatedFullTitle = `${currentTitleOnly} ${bracketPart}`;
+          titleSpan.textContent = updatedFullTitle;
+          titleSpan.style.display = "inline";
+          bottomContainer.classList.add("d-none");
+          changeTitleButton.innerHTML =
+            '<i class="ti ti-edit me-1"></i>Zmień tytuł';
+        }
+
+        // Automatyczna symulacja procesu zmiany tytułu zgłoszenia
+        function saveTitleToGLPI(newTitleValue) {
+          const dotsBtn = document.querySelector(
+            ".card-body:first-child .timeline-more-actions"
+          );
+          if (!dotsBtn) {
+            console.warn("Nie znaleziono przycisku menu z trzema kropkami!");
+            return;
+          }
+          dotsBtn.click();
+          setTimeout(() => {
+            const editLink = document.querySelector(
+              ".card-body:first-child .dropdown-item.edit-timeline-item"
+            );
+            if (!editLink) {
+              console.warn('Nie znaleziono opcji "Edytuj"!');
+              return;
+            }
+            editLink.click();
+            const checkInterval = setInterval(() => {
+              const nameInput = document.querySelector(
+                '.edit-content input[name="name"]'
+              );
+              if (nameInput) {
+                clearInterval(checkInterval);
+                nameInput.value = newTitleValue;
+                const saveBtn = document.querySelector(
+                  '.edit-content button[name="update"]'
+                );
+                if (saveBtn) {
+                  saveBtn.click();
+                }
+              }
+            }, 500);
+          }, 300);
+        }
+
+        // Logika działania przycisku do zmiany tytułu zgłoszenia
+        changeTitleButton.addEventListener("click", () => {
+          if (!isEditingTitle) {
+            startEditing();
+          } else {
+            const newValue = editInput.value.trim();
+            if (newValue === currentTitleOnly) {
+              stopEditing(currentTitleOnly);
+              return;
+            }
+            stopEditing(newValue);
+            saveTitleToGLPI(newValue);
+          }
+        });
+
+        // Obsługa klawisza ENTER (zapis) i ESC (anulacja) w trybie edycji
+        editInput.addEventListener("keydown", (evt) => {
+          if (evt.key === "Enter") {
+            evt.preventDefault();
+            const newValue = editInput.value.trim();
+            if (newValue === currentTitleOnly) {
+              stopEditing(currentTitleOnly);
+              return;
+            }
+            stopEditing(newValue);
+            saveTitleToGLPI(newValue);
+          } else if (evt.key === "Escape") {
+            evt.preventDefault();
+            stopEditing(currentTitleOnly);
+          }
+        });
       }
+    });
+  }
 
-      // Logika działania przycisku do zmiany tytułu zgłoszenia
-      changeTitleButton.addEventListener('click', () => {
-        if (!isEditingTitle) {
-          startEditing();
-        } else {
-          const newValue = editInput.value.trim();
-          if (newValue === currentTitleOnly) {
-            stopEditing(currentTitleOnly);
-            return;
-          }
-          stopEditing(newValue);
-          saveTitleToGLPI(newValue);
-        }
-      });
+  (function () {
+    // Funkcja wstrzykująca select z presetami oraz ustawiająca auto hint
+    function injectPresetDropdown() {
+      var nameInput = document.querySelector('input[name="name"]');
+      if (!nameInput) return;
 
-      // Obsługa klawisza ENTER (zapis) i ESC (anulacja) w trybie edycji
-      editInput.addEventListener('keydown', (evt) => {
-        if (evt.key === 'Enter') {
-          evt.preventDefault();
-          const newValue = editInput.value.trim();
-          if (newValue === currentTitleOnly) {
-            stopEditing(currentTitleOnly);
-            return;
-          }
-          stopEditing(newValue);
-          saveTitleToGLPI(newValue);
-        } else if (evt.key === 'Escape') {
-          evt.preventDefault();
-          stopEditing(currentTitleOnly);
-        }
-      });
-    }
-  });
-}
+      // Szukamy przycisku "Dodaj" – obecnego tylko na stronie tworzenia zgłoszenia
+      var addButton = document.querySelector(
+        'button[name="add"][title="Dodaj"]'
+      );
+      if (!addButton) return;
 
-(function() {
-  // Funkcja wstrzykująca select z presetami oraz ustawiająca auto hint
-  function injectPresetDropdown() {
-    var nameInput = document.querySelector('input[name="name"]');
-    if (!nameInput) return;
+      // Znajdź kontener pola (przyjmujemy, że jest w .field-container)
+      var fieldContainer = nameInput.closest(".field-container");
+      if (!fieldContainer) return;
 
-    // Szukamy przycisku "Dodaj" – obecnego tylko na stronie tworzenia zgłoszenia
-    var addButton = document.querySelector('button[name="add"][title="Dodaj"]');
-    if (!addButton) return;
+      // Jeśli już dodaliśmy nasz select, nie dodawaj go ponownie
+      if (fieldContainer.querySelector(".preset-dropdown-injected")) return;
 
-    // Znajdź kontener pola (przyjmujemy, że jest w .field-container)
-    var fieldContainer = nameInput.closest('.field-container');
-    if (!fieldContainer) return;
-
-    // Jeśli już dodaliśmy nasz select, nie dodawaj go ponownie
-    if (fieldContainer.querySelector('.preset-dropdown-injected')) return;
-
-    // Utwórz element select z presetami
-    var presetDropdown = document.createElement('select');
-    presetDropdown.classList.add('form-select', 'form-select-sm', 'mt-1', 'preset-dropdown-injected');
-    // Wstaw opcje – możesz dowolnie modyfikować
-    presetDropdown.innerHTML = `
+      // Utwórz element select z presetami
+      var presetDropdown = document.createElement("select");
+      presetDropdown.classList.add(
+        "form-select",
+        "form-select-sm",
+        "mt-1",
+        "preset-dropdown-injected"
+      );
+      // Wstaw opcje – możesz dowolnie modyfikować
+      presetDropdown.innerHTML = `
       <option value="">Wybierz tytuł zgłoszenia</option>
       <optgroup label="NAJCZĘŚCIEJ UŻYWANE">
             <option value="Konfiguracja komputera dla pracownika">Konfiguracja komputera dla pracownika</option>
@@ -448,60 +499,65 @@ dropdownRow.appendChild(presetDropdown);
             <option value="Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji">Aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji</option>
           </optgroup>
     `;
-    // Wstaw select na końcu kontenera pola
-    fieldContainer.appendChild(presetDropdown);
+      // Wstaw select na końcu kontenera pola
+      fieldContainer.appendChild(presetDropdown);
 
-    // Po zmianie wyboru aktualizuj wartość pola input
-    presetDropdown.addEventListener('change', function() {
-      if (this.value.trim() !== "") {
-        nameInput.value = this.value.trim();
-      }
-    });
-
-    // Utwórz datalist dla autouzupełniania
-    var titleDatalist = document.createElement('datalist');
-    titleDatalist.id = 'presetTitlesDatalist';
-    Array.from(presetDropdown.options).forEach(function(option) {
-      if (option.value.trim() !== "") {
-        var dataOption = document.createElement('option');
-        dataOption.value = option.value;
-        titleDatalist.appendChild(dataOption);
-      }
-    });
-    // Dodaj datalist do dokumentu – musi być poza kontenerem pola
-    document.body.appendChild(titleDatalist);
-    // Przypisz datalist do inputa
-    nameInput.setAttribute('list', titleDatalist.id);
-
-    // Listener dla autouzupełniania przy naciśnięciu TAB
-    nameInput.addEventListener('keydown', function(evt) {
-      if (evt.key === 'Tab') {
-        var options = Array.from(titleDatalist.options).map(function(opt) {
-          return opt.value;
-        });
-        var currentValue = nameInput.value.trim();
-        var match = options.find(function(opt) {
-          return opt.toLowerCase().startsWith(currentValue.toLowerCase());
-        });
-        if (match) {
-          evt.preventDefault();
-          nameInput.value = match;
+      // Po zmianie wyboru aktualizuj wartość pola input
+      presetDropdown.addEventListener("change", function () {
+        if (this.value.trim() !== "") {
+          nameInput.value = this.value.trim();
         }
-      }
-    }, true);
-  }
+      });
 
-  // Używamy setInterval do okresowego sprawdzania, czy elementy są dostępne
-  var checkInterval = setInterval(function() {
-    var addButton = document.querySelector('button[name="add"][title="Dodaj"]');
-    var nameInput = document.querySelector('input[name="name"]');
-    if (addButton && nameInput) {
-      clearInterval(checkInterval);
-      injectPresetDropdown();
+      // Utwórz datalist dla autouzupełniania
+      var titleDatalist = document.createElement("datalist");
+      titleDatalist.id = "presetTitlesDatalist";
+      Array.from(presetDropdown.options).forEach(function (option) {
+        if (option.value.trim() !== "") {
+          var dataOption = document.createElement("option");
+          dataOption.value = option.value;
+          titleDatalist.appendChild(dataOption);
+        }
+      });
+      // Dodaj datalist do dokumentu – musi być poza kontenerem pola
+      document.body.appendChild(titleDatalist);
+      // Przypisz datalist do inputa
+      nameInput.setAttribute("list", titleDatalist.id);
+
+      // Listener dla autouzupełniania przy naciśnięciu TAB
+      nameInput.addEventListener(
+        "keydown",
+        function (evt) {
+          if (evt.key === "Tab") {
+            var options = Array.from(titleDatalist.options).map(function (opt) {
+              return opt.value;
+            });
+            var currentValue = nameInput.value.trim();
+            var match = options.find(function (opt) {
+              return opt.toLowerCase().startsWith(currentValue.toLowerCase());
+            });
+            if (match) {
+              evt.preventDefault();
+              nameInput.value = match;
+            }
+          }
+        },
+        true
+      );
     }
-  }, 500);
-})();
 
+    // Używamy setInterval do okresowego sprawdzania, czy elementy są dostępne
+    var checkInterval = setInterval(function () {
+      var addButton = document.querySelector(
+        'button[name="add"][title="Dodaj"]'
+      );
+      var nameInput = document.querySelector('input[name="name"]');
+      if (addButton && nameInput) {
+        clearInterval(checkInterval);
+        injectPresetDropdown();
+      }
+    }, 500);
+  })();
 
   /************************************************
    * Formatowanie wyświetlania numerów telefonów
@@ -509,7 +565,10 @@ dropdownRow.appendChild(presetDropdown);
   function formatPhoneNumber(phoneNumberElement) {
     const originalNumber = phoneNumberElement.textContent;
     // Używamy wyrażenia regularnego, by dodać spacje między grupami numeru
-    const formattedNumber = originalNumber.replace(/(\+\d{2}) ?(\d{3}) ?(\d{3}) ?(\d{3})/, '$1 $2 $3 $4');
+    const formattedNumber = originalNumber.replace(
+      /(\+\d{2}) ?(\d{3}) ?(\d{3}) ?(\d{3})/,
+      "$1 $2 $3 $4"
+    );
     phoneNumberElement.textContent = formattedNumber;
   }
 
@@ -519,17 +578,18 @@ dropdownRow.appendChild(presetDropdown);
   }
 
   // Uwaga: Zmieniono callback MutationObserver – teraz wywołuje funkcję formatPhoneNumbers poprawnie
-  const phoneObserver = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      mutation.addedNodes.forEach(node => {
-        if (node.nodeType === 1) { // tylko elementy
+  const phoneObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeType === 1) {
+          // tylko elementy
           formatPhoneNumbers();
         }
       });
     });
   });
 
-  window.addEventListener('load', function () {
+  window.addEventListener("load", function () {
     formatTicketTitle();
     formatTicketTitleOnList();
     formatPhoneNumbers();
@@ -546,10 +606,12 @@ dropdownRow.appendChild(presetDropdown);
   });
 
   function removeOptions() {
-    let dropdown = document.querySelector('.select2-container--open .select2-results__options');
+    let dropdown = document.querySelector(
+      ".select2-container--open .select2-results__options"
+    );
     if (dropdown) {
-      let options = dropdown.querySelectorAll('li');
-      options.forEach(option => {
+      let options = dropdown.querySelectorAll("li");
+      options.forEach((option) => {
         let txt = option.textContent.trim();
         // Formatowanie opcji zaczynających się od "0godz"
         if (txt.startsWith("0godz")) {
@@ -581,9 +643,9 @@ dropdownRow.appendChild(presetDropdown);
 
   // Formatowanie tekstu opcji w selectach
   function updateUnderlyingSelectOptionTexts() {
-    let selects = document.querySelectorAll('select');
-    selects.forEach(select => {
-      Array.from(select.options).forEach(opt => {
+    let selects = document.querySelectorAll("select");
+    selects.forEach((select) => {
+      Array.from(select.options).forEach((opt) => {
         let txt = opt.textContent.trim();
         if (txt.startsWith("0godz")) {
           let minutes = parseInt(txt.slice(-2));
@@ -608,35 +670,37 @@ dropdownRow.appendChild(presetDropdown);
     });
   }
 
-  window.addEventListener('load', () => {
+  window.addEventListener("load", () => {
     removeOptions();
     updateUnderlyingSelectOptionTexts();
   });
-  removeOptionsObserver.observe(document.body, { childList: true, subtree: true });
+  removeOptionsObserver.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 })();
-
 
 /************************************************
  * II. Przełącznik główny dla powiadomień – ustawianie i logika.
  ************************************************/
 
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   function insertMasterSwitch() {
-    const actorsCollapse = document.getElementById('actors');
+    const actorsCollapse = document.getElementById("actors");
     if (!actorsCollapse) {
       console.log("[MasterSwitch] Osoby jeszcze nie znalezione.");
       return false;
     }
-    if (document.getElementById('toggle-all-notifications')) {
+    if (document.getElementById("toggle-all-notifications")) {
       return true;
     }
 
-    const toggleContainer = document.createElement('div');
-    toggleContainer.style.padding = '8px 12px';
-    toggleContainer.style.backgroundColor = '#f8f9fa';
-    toggleContainer.style.borderBottom = '1px solid #dee2e6';
+    const toggleContainer = document.createElement("div");
+    toggleContainer.style.padding = "8px 12px";
+    toggleContainer.style.backgroundColor = "#f8f9fa";
+    toggleContainer.style.borderBottom = "1px solid #dee2e6";
     toggleContainer.innerHTML = `
       <div class="form-check form-switch m-0">
         <input class="form-check-input" type="checkbox" id="toggle-all-notifications" style="cursor: pointer;">
@@ -653,7 +717,10 @@ dropdownRow.appendChild(presetDropdown);
     if (insertMasterSwitch()) {
       clearInterval(pollInterval);
       const actorsInterval = setInterval(() => {
-        if (typeof window.actors === 'object' && typeof window.saveActorsToDom === 'function') {
+        if (
+          typeof window.actors === "object" &&
+          typeof window.saveActorsToDom === "function"
+        ) {
           clearInterval(actorsInterval);
           setupMasterSwitchLogic();
         } else {
@@ -676,7 +743,7 @@ dropdownRow.appendChild(presetDropdown);
     }
 
     function updateMasterSwitch() {
-      const masterSwitch = document.getElementById('toggle-all-notifications');
+      const masterSwitch = document.getElementById("toggle-all-notifications");
       if (masterSwitch) {
         masterSwitch.checked = allParticipantsOn();
       }
@@ -685,12 +752,12 @@ dropdownRow.appendChild(presetDropdown);
     function updateAllBellIcons() {
       for (const category in window.actors) {
         for (const actor of window.actors[category]) {
-          const faClass = (actor.use_notification == 1) ? 'fas' : 'far';
+          const faClass = actor.use_notification == 1 ? "fas" : "far";
           const selector = `.actor_entry[data-itemtype="${actor.itemtype}"][data-items-id="${actor.items_id}"][data-actortype="${category}"]`;
-          document.querySelectorAll(selector).forEach(entry => {
-            const icon = entry.querySelector('.notify-icon');
+          document.querySelectorAll(selector).forEach((entry) => {
+            const icon = entry.querySelector(".notify-icon");
             if (icon) {
-              icon.classList.remove('fas','far');
+              icon.classList.remove("fas", "far");
               icon.classList.add(faClass);
             }
           });
@@ -700,22 +767,22 @@ dropdownRow.appendChild(presetDropdown);
 
     // Aktualizacja state'u MasterSwticha
     const originalSaveActorsToDom = window.saveActorsToDom;
-    window.saveActorsToDom = function() {
+    window.saveActorsToDom = function () {
       originalSaveActorsToDom();
       updateMasterSwitch();
     };
 
-    if (typeof window.saveNotificationSettings === 'function') {
+    if (typeof window.saveNotificationSettings === "function") {
       const originalSaveNotificationSettings = window.saveNotificationSettings;
-      window.saveNotificationSettings = function() {
+      window.saveNotificationSettings = function () {
         originalSaveNotificationSettings();
         updateMasterSwitch();
       };
     }
 
     // Nasłuchiwanie zmian w MasterSwitchu
-    const masterSwitch = document.getElementById('toggle-all-notifications');
-    masterSwitch.addEventListener('change', () => {
+    const masterSwitch = document.getElementById("toggle-all-notifications");
+    masterSwitch.addEventListener("change", () => {
       const newValue = masterSwitch.checked ? 1 : 0;
       for (const category in window.actors) {
         for (const actor of window.actors[category]) {
@@ -726,7 +793,9 @@ dropdownRow.appendChild(presetDropdown);
       window.saveActorsToDom();
       // Automatyczny zapis zmian.
       setTimeout(() => {
-        const saveButton = document.querySelector('button[name="update"][form="itil-form"]');
+        const saveButton = document.querySelector(
+          'button[name="update"][form="itil-form"]'
+        );
         if (saveButton) {
           console.log("[MasterSwitch] Automatyczny zapis.");
           saveButton.click();
@@ -741,20 +810,19 @@ dropdownRow.appendChild(presetDropdown);
   }
 })();
 
-
 /************************************************
  * III. Zliczanie i wyświetlanie łącznego czasu z zadań w zgłoszeniu
  ************************************************/
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
   /********************
    * Style CSS dla etykiety dodatkowej
    ********************/
   function addAdditionalLabelStyles() {
-    if (document.getElementById('additional-label-styles')) return;
-    const style = document.createElement('style');
-    style.id = 'additional-label-styles';
+    if (document.getElementById("additional-label-styles")) return;
+    const style = document.createElement("style");
+    style.id = "additional-label-styles";
     style.textContent = `
       /* Upewnij się, że kontener pola (field-container) ma pozycjonowanie relative */
       .field-container.relative {
@@ -815,7 +883,9 @@ dropdownRow.appendChild(presetDropdown);
     timeText = timeText.trim();
     let totalSeconds = 0;
     if (/godz/i.test(timeText)) {
-      let m = timeText.match(/(\d+)\s*godz(?:ina|in|iny)?\s*(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i);
+      let m = timeText.match(
+        /(\d+)\s*godz(?:ina|in|iny)?\s*(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i
+      );
       if (m) {
         let hours = parseInt(m[1], 10);
         let minutes = parseInt(m[2], 10);
@@ -824,7 +894,9 @@ dropdownRow.appendChild(presetDropdown);
         console.warn("Nie udało się przetworzyć godzin: " + timeText);
       }
     } else {
-      let m = timeText.match(/(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i);
+      let m = timeText.match(
+        /(\d+)\s*minut(?:[ay])?\s*(\d+)\s*sekund(?:[ay])?/i
+      );
       if (m) {
         let minutes = parseInt(m[1], 10);
         totalSeconds = minutes * 60;
@@ -847,8 +919,8 @@ dropdownRow.appendChild(presetDropdown);
 
   function getTotalTimeSeconds() {
     let totalSeconds = 0;
-    const badges = document.querySelectorAll('.actiontime.badge.bg-orange-lt');
-    badges.forEach(badge => {
+    const badges = document.querySelectorAll(".actiontime.badge.bg-orange-lt");
+    badges.forEach((badge) => {
       totalSeconds += parseTaskTime(badge.textContent.trim());
     });
     return totalSeconds;
@@ -870,7 +942,7 @@ dropdownRow.appendChild(presetDropdown);
   let initialTicketTitle = null;
   function getCurrentTicketTitle() {
     if (initialTicketTitle !== null) return initialTicketTitle;
-    const titleSpan = document.querySelector('.navigationheader-title span');
+    const titleSpan = document.querySelector(".navigationheader-title span");
     if (titleSpan) {
       let text = titleSpan.textContent.trim();
       if (text.indexOf("[HLP") !== -1) {
@@ -880,7 +952,7 @@ dropdownRow.appendChild(presetDropdown);
       console.log("Tytuł zgłoszenia (oczyszczony):", initialTicketTitle);
       return initialTicketTitle;
     }
-    const titleElem = document.querySelector('.navigationheader-title');
+    const titleElem = document.querySelector(".navigationheader-title");
     if (titleElem) {
       let rawText = titleElem.textContent.trim();
       if (rawText.indexOf("[HLP") !== -1) {
@@ -897,7 +969,8 @@ dropdownRow.appendChild(presetDropdown);
   const titleSuggestedTimes = {
     "konfiguracja komputera dla pracownika": "2 godz",
     "instalacja dodatkowego oprogramowania": "30 min",
-    "Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego": "30 min",
+    "Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego":
+      "30 min",
     "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
     "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
     "rozwiązanie problemu z synchronizacją onedrive": "30 min",
@@ -949,8 +1022,9 @@ dropdownRow.appendChild(presetDropdown);
     "porządkowanie licencji microsoft 365": "2 godz",
     "porządkowanie licencji power apps i powerbi": "2 godz",
     "zarządzanie aplikacjami w portalu firmy": "8 godz",
-    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
-    "odblokowanie komputera kluczem Bitlocker": "30 min"
+    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji":
+      "2 godz",
+    "odblokowanie komputera kluczem Bitlocker": "30 min",
     // Dodaj kolejne mapowania, jeśli potrzeba
   };
 
@@ -989,59 +1063,64 @@ dropdownRow.appendChild(presetDropdown);
    * Aktualizacja etykiety dodatkowej
    ********************/
   function updateAdditionalLabel() {
-  const ticketTitle = getCurrentTicketTitle().toLowerCase();
-  let resultText = "";
-  // Jeśli tytuł zaczyna się od "awaryjne/a" – zawsze kwalifikuje się jako dodatkowe
-  if (ticketTitle.startsWith("awaryjne") || ticketTitle.startsWith("awaryjna")) {
-    resultText = "Kwalifikuje się jako dodatkowe";
-  } else {
-    const titleCond = checkTitleCondition();
-    const timeCond = checkTimeCondition();
-    if (titleCond && timeCond) {
+    const ticketTitle = getCurrentTicketTitle().toLowerCase();
+    let resultText = "";
+    // Jeśli tytuł zaczyna się od "awaryjne/a" – zawsze kwalifikuje się jako dodatkowe
+    if (
+      ticketTitle.startsWith("awaryjne") ||
+      ticketTitle.startsWith("awaryjna")
+    ) {
       resultText = "Kwalifikuje się jako dodatkowe";
-    } else if (titleCond) {
-      resultText = "Potencjalnie dodatkowe";
+    } else {
+      const titleCond = checkTitleCondition();
+      const timeCond = checkTimeCondition();
+      if (titleCond && timeCond) {
+        resultText = "Kwalifikuje się jako dodatkowe";
+      } else if (titleCond) {
+        resultText = "Potencjalnie dodatkowe";
+      }
+    }
+    // ... (reszta kodu pozostaje bez zmian)
+    let fieldRow = null;
+    const rows = document.querySelectorAll("div.form-field.row.col-12.mb-2");
+    rows.forEach((row) => {
+      const label = row.querySelector("label");
+      if (
+        label &&
+        label.textContent.trim().toLowerCase().includes("dodatkowe")
+      ) {
+        fieldRow = row;
+      }
+    });
+    if (!fieldRow) return;
+    let container = fieldRow.querySelector("div.field-container");
+    if (!container) return;
+    container.classList.add("relative");
+    let labelEl = container.querySelector("#additional_label_text");
+    if (!labelEl) {
+      labelEl = document.createElement("div");
+      labelEl.id = "additional_label_text";
+      labelEl.className = "dodatkowy-label";
+      container.appendChild(labelEl);
+    }
+    if (labelEl.textContent !== resultText) {
+      labelEl.textContent = resultText;
+    }
+    labelEl.classList.remove("potencjalnie", "dodatkowy");
+    if (resultText === "Kwalifikuje się jako dodatkowe") {
+      labelEl.classList.add("dodatkowy");
+    } else if (resultText === "Potencjalnie dodatkowe") {
+      labelEl.classList.add("potencjalnie");
     }
   }
-  // ... (reszta kodu pozostaje bez zmian)
-  let fieldRow = null;
-  const rows = document.querySelectorAll('div.form-field.row.col-12.mb-2');
-  rows.forEach(row => {
-    const label = row.querySelector('label');
-    if (label && label.textContent.trim().toLowerCase().includes("dodatkowe")) {
-      fieldRow = row;
-    }
-  });
-  if (!fieldRow) return;
-  let container = fieldRow.querySelector('div.field-container');
-  if (!container) return;
-  container.classList.add("relative");
-  let labelEl = container.querySelector('#additional_label_text');
-  if (!labelEl) {
-    labelEl = document.createElement('div');
-    labelEl.id = 'additional_label_text';
-    labelEl.className = 'dodatkowy-label';
-    container.appendChild(labelEl);
-  }
-  if (labelEl.textContent !== resultText) {
-    labelEl.textContent = resultText;
-  }
-  labelEl.classList.remove("potencjalnie", "dodatkowy");
-  if (resultText === "Kwalifikuje się jako dodatkowe") {
-    labelEl.classList.add("dodatkowy");
-  } else if (resultText === "Potencjalnie dodatkowe") {
-    labelEl.classList.add("potencjalnie");
-  }
-}
-
 
   /********************
    * Aktualizacja podsumowania czasu zadania
    ********************/
   function updateTaskTimeSummary() {
     let totalSeconds = 0;
-    const badges = document.querySelectorAll('.actiontime.badge.bg-orange-lt');
-    badges.forEach(badge => {
+    const badges = document.querySelectorAll(".actiontime.badge.bg-orange-lt");
+    badges.forEach((badge) => {
       const text = badge.textContent.trim();
       totalSeconds += parseTaskTime(text);
     });
@@ -1051,29 +1130,33 @@ dropdownRow.appendChild(presetDropdown);
   let observer = null;
   function insertOrUpdateSummary() {
     if (observer) observer.disconnect();
-    const navPanel = document.getElementById('tabspanel');
+    const navPanel = document.getElementById("tabspanel");
     if (!navPanel) return;
-    let summaryContainer = document.getElementById('task-time-summary-container');
+    let summaryContainer = document.getElementById(
+      "task-time-summary-container"
+    );
     if (!summaryContainer) {
-      summaryContainer = document.createElement('li');
-      summaryContainer.id = 'task-time-summary-container';
-      summaryContainer.classList.add('nav-item');
-      summaryContainer.style.padding = '10px';
-      summaryContainer.style.borderTop = '1px solid #ccc';
+      summaryContainer = document.createElement("li");
+      summaryContainer.id = "task-time-summary-container";
+      summaryContainer.classList.add("nav-item");
+      summaryContainer.style.padding = "10px";
+      summaryContainer.style.borderTop = "1px solid #ccc";
       navPanel.appendChild(summaryContainer);
-      const totalTimeEl = document.createElement('div');
-      totalTimeEl.id = 'total-time-el';
+      const totalTimeEl = document.createElement("div");
+      totalTimeEl.id = "total-time-el";
       summaryContainer.appendChild(totalTimeEl);
-      const suggestedTimeEl = document.createElement('div');
-      suggestedTimeEl.id = 'suggested-time-el';
+      const suggestedTimeEl = document.createElement("div");
+      suggestedTimeEl.id = "suggested-time-el";
       summaryContainer.appendChild(suggestedTimeEl);
     }
-    const totalTimeEl = document.getElementById('total-time-el');
-    totalTimeEl.innerHTML = "Łączny czas: <strong>" + updateTaskTimeSummary() + "</strong>";
-    const suggestedTimeEl = document.getElementById('suggested-time-el');
+    const totalTimeEl = document.getElementById("total-time-el");
+    totalTimeEl.innerHTML =
+      "Łączny czas: <strong>" + updateTaskTimeSummary() + "</strong>";
+    const suggestedTimeEl = document.getElementById("suggested-time-el");
     const suggestedTime = getSuggestedTime();
     if (suggestedTime) {
-      suggestedTimeEl.innerHTML = "Sugerowany czas: <strong>" + suggestedTime + "</strong>";
+      suggestedTimeEl.innerHTML =
+        "Sugerowany czas: <strong>" + suggestedTime + "</strong>";
     } else {
       suggestedTimeEl.innerHTML = "";
     }
@@ -1085,7 +1168,7 @@ dropdownRow.appendChild(presetDropdown);
   /********************
    * Inicjalizacja i okresowa aktualizacja
    ********************/
-  window.addEventListener('load', () => {
+  window.addEventListener("load", () => {
     setTimeout(() => {
       insertOrUpdateSummary();
       updateAdditionalLabel();
@@ -1117,26 +1200,24 @@ dropdownRow.appendChild(presetDropdown);
     checkTimeCondition,
     updateTaskTimeSummary,
     updateAdditionalLabel,
-    insertOrUpdateSummary
+    insertOrUpdateSummary,
   };
-
 })();
-
 
 // ================================================
 // FUNKCJE DO TWORZENIA POWIĄZANEGO ZGŁOSZENIA (DEBUGOWANE)
 // ================================================
-(function() {
-  'use strict';
+(function () {
+  "use strict";
 
-// Log helper function
+  // Log helper function
   function log(msg) {
     console.log("[RelatedTicketScript] " + msg);
   }
 
   // Pobiera numer ID zgłoszenia z tytułu, np. "[HLP #0003500]" -> "3500"
   function getCurrentTicketID() {
-    const titleElem = document.querySelector('.navigationheader-title');
+    const titleElem = document.querySelector(".navigationheader-title");
     if (!titleElem) return null;
     const text = titleElem.textContent;
     const match = text.match(/\[HLP\s+#0*(\d+)\]/i);
@@ -1158,38 +1239,41 @@ dropdownRow.appendChild(presetDropdown);
 
   // Dodaje przycisk "Utwórz podrzędne zgłoszenie" do akordeonu "Powiązane zgłoszenia"
   function addCreateRelatedTicketButton() {
-    log("Oczekiwanie na pojawienie się akordeonu #linked_tickets w widoku zgłoszenia.");
+    log(
+      "Oczekiwanie na pojawienie się akordeonu #linked_tickets w widoku zgłoszenia."
+    );
     const interval = setInterval(() => {
-      const linkedTicketsAccordion = document.getElementById('linked_tickets');
+      const linkedTicketsAccordion = document.getElementById("linked_tickets");
       if (linkedTicketsAccordion) {
         log("Akordeon #linked_tickets znaleziony.");
         clearInterval(interval);
-        const accordionBody = linkedTicketsAccordion.querySelector('.accordion-body');
+        const accordionBody =
+          linkedTicketsAccordion.querySelector(".accordion-body");
         if (!accordionBody) {
           log("ERROR: Nie znaleziono ciała akordeonu 'Powiązane zgłoszenia'.");
           return;
         }
         // Jeśli przycisk już istnieje, nie dodajemy go ponownie.
-        if (document.getElementById('createRelatedTicketButton')) {
+        if (document.getElementById("createRelatedTicketButton")) {
           log("Przycisk 'Utwórz podrzędne zgłoszenie' już istnieje.");
           return;
         }
 
-        const btn = document.createElement('button');
-        btn.id = 'createRelatedTicketButton';
+        const btn = document.createElement("button");
+        btn.id = "createRelatedTicketButton";
         btn.textContent = "Utwórz podrzędne zgłoszenie";
         btn.className = "btn btn-sm btn-primary";
         btn.style.marginBottom = "10px";
-        btn.addEventListener('click', function() {
+        btn.addEventListener("click", function () {
           const urlParams = new URLSearchParams(window.location.search);
-          const currentTicketID = urlParams.get('id');
+          const currentTicketID = urlParams.get("id");
           log("Przycisk kliknięty. ID zgłoszenia: " + currentTicketID);
           if (!currentTicketID) {
             log("ERROR: Nie znaleziono ID zgłoszenia.");
             return;
           }
           // Zapisujemy ID do localStorage.
-          localStorage.setItem('related_ticket', currentTicketID);
+          localStorage.setItem("related_ticket", currentTicketID);
           log("ID zgłoszenia zapisane w localStorage.");
 
           // Otwieramy stronę tworzenia zgłoszenia w nowej zakładce.
@@ -1204,13 +1288,17 @@ dropdownRow.appendChild(presetDropdown);
             </div>
           `;
           // Opcjonalnie – dodajemy obsługę przycisku odświeżania.
-          document.getElementById('reloadButton').addEventListener('click', function() {
-            window.location.href = window.location.href;
-          });
+          document
+            .getElementById("reloadButton")
+            .addEventListener("click", function () {
+              window.location.href = window.location.href;
+            });
 
-          log("Zaktualizowano zawartość strony. Użytkownik powinien kliknąć przycisk 'Odśwież stronę'.");
+          log(
+            "Zaktualizowano zawartość strony. Użytkownik powinien kliknąć przycisk 'Odśwież stronę'."
+          );
         });
-        accordionBody.insertAdjacentElement('afterbegin', btn);
+        accordionBody.insertAdjacentElement("afterbegin", btn);
         log("Przycisk 'Utwórz podrzędne zgłoszenie' dodany do akordeonu.");
       } else {
         log("Czekam na akordeon #linked_tickets...");
@@ -1223,24 +1311,26 @@ dropdownRow.appendChild(presetDropdown);
     log("autoAddRelatedTicket() uruchomione.");
     const urlParams = new URLSearchParams(window.location.search);
     // Jeśli parametr "id" istnieje, to nie jest to strona tworzenia zgłoszenia.
-    if (urlParams.has('id')) {
-      log("Strona zawiera parametr 'id'. To nie jest strona tworzenia zgłoszenia.");
+    if (urlParams.has("id")) {
+      log(
+        "Strona zawiera parametr 'id'. To nie jest strona tworzenia zgłoszenia."
+      );
       return;
     }
-    const relatedTicketID = localStorage.getItem('related_ticket');
+    const relatedTicketID = localStorage.getItem("related_ticket");
     log("Odczytano ID powiązanego zgłoszenia: " + relatedTicketID);
     if (!relatedTicketID) {
       log("ERROR: Brak zapisanego ID zgłoszenia.");
       return;
     }
     // Usuwamy zapisane ID, aby proces wykonał się tylko raz.
-    localStorage.removeItem('related_ticket');
+    localStorage.removeItem("related_ticket");
     log("Usunięto zapisane ID zgłoszenia z localStorage.");
 
     // Czekamy, aż dynamicznie ładowany kontener #linked_tickets będzie dostępny.
     const waitForContainer = setInterval(() => {
       log("Sprawdzam, czy kontener #linked_tickets jest dostępny...");
-      const linkedTicketsContainer = document.getElementById('linked_tickets');
+      const linkedTicketsContainer = document.getElementById("linked_tickets");
       if (linkedTicketsContainer) {
         log("Kontener #linked_tickets znaleziony.");
         clearInterval(waitForContainer);
@@ -1251,8 +1341,9 @@ dropdownRow.appendChild(presetDropdown);
         // Następnie czekamy na przycisk "Dodaj" w kontenerze.
         const waitForAddButton = setInterval(() => {
           log("Sprawdzam, czy przycisk 'Dodaj' jest dostępny...");
-          const addButton = Array.from(linkedTicketsContainer.querySelectorAll('button'))
-                              .find(btn => btn.textContent.trim() === "Dodaj");
+          const addButton = Array.from(
+            linkedTicketsContainer.querySelectorAll("button")
+          ).find((btn) => btn.textContent.trim() === "Dodaj");
           if (addButton) {
             log("Przycisk 'Dodaj' znaleziony.");
             clearInterval(waitForAddButton);
@@ -1260,7 +1351,10 @@ dropdownRow.appendChild(presetDropdown);
             log("Kliknięto przycisk 'Dodaj'.");
             // Po krótkim opóźnieniu otwieramy dropdown wyboru zgłoszenia.
             setTimeout(() => {
-              log("Wywoływanie funkcji openTicketSelectionDropdown() dla ticketID: " + relatedTicketID);
+              log(
+                "Wywoływanie funkcji openTicketSelectionDropdown() dla ticketID: " +
+                  relatedTicketID
+              );
               openTicketSelectionDropdown(relatedTicketID);
             }, 500);
           } else {
@@ -1279,8 +1373,13 @@ dropdownRow.appendChild(presetDropdown);
 
   // Oczekuje na pojawienie się pola wyszukiwania w ostatnio otwartym dropdownie Select2.
   function waitForDropdownSearchInput(callback, retries = 10) {
-    log("Sprawdzam pole wyszukiwania w dropdownie Select2, pozostało prób: " + retries);
-    const searchInputs = document.querySelectorAll('.select2-dropdown .select2-search__field');
+    log(
+      "Sprawdzam pole wyszukiwania w dropdownie Select2, pozostało prób: " +
+        retries
+    );
+    const searchInputs = document.querySelectorAll(
+      ".select2-dropdown .select2-search__field"
+    );
     if (searchInputs.length > 0) {
       log("Znaleziono " + searchInputs.length + " pola. Używam ostatniego.");
       callback(searchInputs[searchInputs.length - 1]);
@@ -1296,7 +1395,9 @@ dropdownRow.appendChild(presetDropdown);
   // Oczekuje na pojawienie się wyniku wyszukiwania.
   function waitForSelectResult(callback, retries = 10) {
     log("Sprawdzam wyniki wyszukiwania, pozostało prób: " + retries);
-    const result = document.querySelector('.select2-results__option[aria-selected]');
+    const result = document.querySelector(
+      ".select2-results__option[aria-selected]"
+    );
     if (result) {
       log("Wynik znaleziony: " + result.textContent);
       callback(result);
@@ -1312,13 +1413,25 @@ dropdownRow.appendChild(presetDropdown);
   // Funkcja symulująca pełny przebieg zdarzeń myszy (mousedown, mouseup, click) na wyniku.
   function simulateClickOnResult(result) {
     log("Symulacja zdarzeń myszy dla wyniku.");
-    var mousedownEvent = new MouseEvent('mousedown', { view: window, bubbles: true, cancelable: true });
+    var mousedownEvent = new MouseEvent("mousedown", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
     result.dispatchEvent(mousedownEvent);
     log("Dispatched mousedown.");
-    var mouseupEvent = new MouseEvent('mouseup', { view: window, bubbles: true, cancelable: true });
+    var mouseupEvent = new MouseEvent("mouseup", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
     result.dispatchEvent(mouseupEvent);
     log("Dispatched mouseup.");
-    var clickEvent = new MouseEvent('click', { view: window, bubbles: true, cancelable: true });
+    var clickEvent = new MouseEvent("click", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
     result.dispatchEvent(clickEvent);
     log("Dispatched click.");
   }
@@ -1326,22 +1439,30 @@ dropdownRow.appendChild(presetDropdown);
   // Funkcja otwierająca Select2 dla pola wyboru zgłoszenia (_link[tickets_id_2]) i wpisująca ID zgłoszenia.
   function openTicketSelectionDropdown(ticketID) {
     log("Otwarcie dropdownu (_link[tickets_id_2]) dla zgłoszenia.");
-    const selectEl = document.querySelector('select[name="_link[tickets_id_2]"]');
+    const selectEl = document.querySelector(
+      'select[name="_link[tickets_id_2]"]'
+    );
     if (!selectEl) {
       log("ERROR: Nie znaleziono elementu select (_link[tickets_id_2]).");
       return;
     }
-    log("Element select (_link[tickets_id_2]) znaleziony: " + (selectEl.id || 'brak id'));
+    log(
+      "Element select (_link[tickets_id_2]) znaleziony: " +
+        (selectEl.id || "brak id")
+    );
     $(selectEl).select2("open");
     log("Wywołano otwarcie Select2.");
-    waitForDropdownSearchInput(function(searchInput) {
+    waitForDropdownSearchInput(function (searchInput) {
       log("Pole wyszukiwania znalezione. Wpisuję ticketID: " + ticketID);
       searchInput.value = ticketID;
-      const evt = new Event('input', { bubbles: true });
+      const evt = new Event("input", { bubbles: true });
       searchInput.dispatchEvent(evt);
       log("Wysłano zdarzenie input.");
-      waitForSelectResult(function(result) {
-        log("Przygotowanie do symulacji kliknięcia na wynik: " + result.textContent);
+      waitForSelectResult(function (result) {
+        log(
+          "Przygotowanie do symulacji kliknięcia na wynik: " +
+            result.textContent
+        );
         simulateClickOnResult(result);
         log("Wybrano wynik.");
       });
@@ -1349,18 +1470,25 @@ dropdownRow.appendChild(presetDropdown);
   }
 
   // Inicjacja w zależności od strony.
-  window.addEventListener('load', function() {
+  window.addEventListener("load", function () {
     log("Window load event. location.search: " + window.location.search);
     // Jeśli mamy .navigationheader-title, to jesteśmy na stronie zgłoszenia.
-    if (document.querySelector('.navigationheader-title')) {
-      log("Wykryto widok zgłoszenia. Uruchamiam addCreateRelatedTicketButton().");
+    if (document.querySelector(".navigationheader-title")) {
+      log(
+        "Wykryto widok zgłoszenia. Uruchamiam addCreateRelatedTicketButton()."
+      );
       addCreateRelatedTicketButton();
     }
     // Jeśli URL zawiera parametr new lub mamy formularz tworzenia (np. 'itil-form'),
     // oraz brak .navigationheader-title – to jesteśmy na stronie tworzenia zgłoszenia.
     const params = new URLSearchParams(window.location.search);
-    if ((document.getElementById('itil-form') || params.has('new')) && !document.querySelector('.navigationheader-title')) {
-      log("Wykryto stronę tworzenia zgłoszenia. Uruchamiam autoAddRelatedTicket().");
+    if (
+      (document.getElementById("itil-form") || params.has("new")) &&
+      !document.querySelector(".navigationheader-title")
+    ) {
+      log(
+        "Wykryto stronę tworzenia zgłoszenia. Uruchamiam autoAddRelatedTicket()."
+      );
       autoAddRelatedTicket();
     } else {
       log("Strona tworzenia zgłoszenia nie została wykryta.");
@@ -1368,10 +1496,10 @@ dropdownRow.appendChild(presetDropdown);
   });
 
   // skróty kolejek
-  (function() {
-  'use strict';
+  (function () {
+    "use strict";
 
-  const breadcrumbHtml = `
+    const breadcrumbHtml = `
     <div class="breadcrumb breadcrumb-alternate pe-1 pe-sm-3">
       <ul class="nav navbar-nav border-start border-left ps-1 ps-sm-2 flex-row">
         <li class="nav-item">
@@ -1406,49 +1534,53 @@ dropdownRow.appendChild(presetDropdown);
     </div>
   `;
 
-  let breadcrumbAdded = false;
-  const targetSelector = 'main[role="main"][id="page"].legacy';
+    let breadcrumbAdded = false;
+    const targetSelector = 'main[role="main"][id="page"].legacy';
 
-  const observer = new MutationObserver((mutationsList, observer) => {
-    for (const mutation of mutationsList) {
-      if (mutation.type === 'childList' && !breadcrumbAdded) {
-        mutation.addedNodes.forEach(node => {
-          if (node.nodeType === 1 && node.matches(targetSelector)) {
-            node.insertAdjacentHTML('afterbegin', breadcrumbHtml);
-            console.log('Element breadcrumb został dodany przy użyciu MutationObserver.');
-            breadcrumbAdded = true;
-            observer.disconnect();
-            return;
-          }
-        });
+    const observer = new MutationObserver((mutationsList, observer) => {
+      for (const mutation of mutationsList) {
+        if (mutation.type === "childList" && !breadcrumbAdded) {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1 && node.matches(targetSelector)) {
+              node.insertAdjacentHTML("afterbegin", breadcrumbHtml);
+              console.log(
+                "Element breadcrumb został dodany przy użyciu MutationObserver."
+              );
+              breadcrumbAdded = true;
+              observer.disconnect();
+              return;
+            }
+          });
+        }
+        // Sprawdź, czy targetSelector już istnieje na stronie przy mutacjach
+        if (!breadcrumbAdded && document.querySelector(targetSelector)) {
+          const mainElement = document.querySelector(targetSelector);
+          mainElement.insertAdjacentHTML("afterbegin", breadcrumbHtml);
+          console.log(
+            "Element breadcrumb został dodany (element był już w DOM)."
+          );
+          breadcrumbAdded = true;
+          observer.disconnect();
+        }
       }
-      // Sprawdź, czy targetSelector już istnieje na stronie przy mutacjach
-      if (!breadcrumbAdded && document.querySelector(targetSelector)) {
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    setTimeout(() => {
+      if (!breadcrumbAdded) {
         const mainElement = document.querySelector(targetSelector);
-        mainElement.insertAdjacentHTML('afterbegin', breadcrumbHtml);
-        console.log('Element breadcrumb został dodany (element był już w DOM).');
-        breadcrumbAdded = true;
-        observer.disconnect();
+        if (mainElement) {
+          mainElement.insertAdjacentHTML("afterbegin", breadcrumbHtml);
+          breadcrumbAdded = true;
+          observer.disconnect();
+          console.log("Element breadcrumb został dodany przez timeout.");
+        } else {
+          console.log(
+            "Element <main> nie został znaleziony w czasie (timeout)."
+          );
+        }
       }
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  setTimeout(() => {
-    if (!breadcrumbAdded) {
-      const mainElement = document.querySelector(targetSelector);
-      if (mainElement) {
-        mainElement.insertAdjacentHTML('afterbegin', breadcrumbHtml);
-        breadcrumbAdded = true;
-        observer.disconnect();
-        console.log('Element breadcrumb został dodany przez timeout.');
-      } else {
-        console.log('Element <main> nie został znaleziony w czasie (timeout).');
-      }
-    }
-  }, 5000); // Sprawdzaj maksymalnie przez 5 sekund
-
+    }, 5000); // Sprawdzaj maksymalnie przez 5 sekund
+  })();
 })();
-})();
-
