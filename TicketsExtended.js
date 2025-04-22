@@ -969,8 +969,7 @@
   const titleSuggestedTimes = {
     "konfiguracja komputera dla pracownika": "2 godz",
     "instalacja dodatkowego oprogramowania": "30 min",
-    "Instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego":
-      "30 min",
+    "instalacja sterowników i oprogramowania do urządzenia wielofunkcyjnego": "30 min",
     "rozwiązanie problemu z dostępem do platformy e-pracownik": "30 min",
     "rozwiązanie problemu z logowaniem do konta domenowego": "30 min",
     "rozwiązanie problemu z synchronizacją onedrive": "30 min",
@@ -1022,8 +1021,7 @@
     "porządkowanie licencji microsoft 365": "2 godz",
     "porządkowanie licencji power apps i powerbi": "2 godz",
     "zarządzanie aplikacjami w portalu firmy": "8 godz",
-    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji":
-      "2 godz",
+    "aktualizacja obrazu systemu operacyjnego przeznaczonego dla korporacji": "2 godz",
     "odblokowanie komputera kluczem Bitlocker": "30 min",
     // Dodaj kolejne mapowania, jeśli potrzeba
   };
